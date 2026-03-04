@@ -148,84 +148,12 @@ export function MatchCalendar({ matches, venues }: MatchCalendarProps) {
                 </div>
             </div>
 
-            {/* Match Details Section */}
-            {selectedMatch && (
-                <div
-                    ref={detailsRef}
-                    className="animate-in fade-in slide-in-from-top-4 duration-300 rounded-xl border border-primary/20 bg-primary/5 p-6 shadow-sm scroll-mt-24"
-                >
-                    <div className="mb-4 flex items-center justify-between">
-                        ...
-                        <div className="flex items-center gap-2">
-                            <Trophy className="h-5 w-5 text-primary" />
-                            <h4 className="font-bold text-foreground">Detalles del Partido</h4>
-                        </div>
-                        <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-2 py-1 rounded">
-                            {selectedMatch.status === "jugado" ? "Jugado" : "Programado"}
-                        </span>
-                    </div>
-
-                    <div className="grid gap-6 md:grid-cols-2">
-                        {/* Context Info */}
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-3 text-sm text-foreground">
-                                <CalendarDays className="h-4 w-4 text-primary/70" />
-                                <span>Fecha: <strong>{new Date(selectedMatch.date + "T12:00:00").toLocaleDateString('es-AR', { dateStyle: 'long' })}</strong></span>
-                            </div>
-                            <div className="flex items-center gap-3 text-sm text-foreground">
-                                <Clock className="h-4 w-4 text-primary/70" />
-                                <span>Hora: <strong>{selectedMatch.time} hs</strong></span>
-                            </div>
-                            {selectedVenue && (
-                                <div className="flex items-center gap-3 text-sm text-foreground">
-                                    <MapPin className="h-4 w-4 text-primary/70" />
-                                    <span>Sede: <strong>{selectedVenue.name}</strong></span>
-                                </div>
-                            )}
-                            {selectedMatch.status === "jugado" && (
-                                <div className="mt-4 rounded-lg bg-primary/10 p-4 border border-primary/20">
-                                    <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1 text-center">Resultado Final</p>
-                                    <p className="text-2xl font-black text-primary text-center">
-                                        GANADOR: {selectedMatch.scoreA > selectedMatch.scoreB ? "EQUIPO A" : selectedMatch.scoreB > selectedMatch.scoreA ? "EQUIPO B" : "EMPATE"}
-                                    </p>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Rosters */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <div className="flex items-center gap-1.5 border-b border-primary/10 pb-1">
-                                    <Users className="h-3.5 w-3.5 text-primary/70" />
-                                    <p className="text-xs font-bold uppercase tracking-tight text-foreground">Equipo A</p>
-                                </div>
-                                <div className="space-y-0.5">
-                                    {(selectedMatch.teamA || []).map((p: string) => (
-                                        <div key={p} className="flex items-center gap-1.5">
-                                            <div className="h-1 w-1 rounded-full bg-primary/50" />
-                                            <p className="text-[11px] text-muted-foreground leading-tight">{p}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <div className="flex items-center gap-1.5 border-b border-primary/10 pb-1">
-                                    <Users className="h-3.5 w-3.5 text-primary/70" />
-                                    <p className="text-xs font-bold uppercase tracking-tight text-foreground">Equipo B</p>
-                                </div>
-                                <div className="space-y-0.5">
-                                    {(selectedMatch.teamB || []).map((p: string) => (
-                                        <div key={p} className="flex items-center gap-1.5">
-                                            <div className="h-1 w-1 rounded-full bg-primary/50" />
-                                            <p className="text-[11px] text-muted-foreground leading-tight">{p}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <MatchDetailsModal
+                isOpen={isModalOpen}
+                onOpenChange={setIsModalOpen}
+                match={selectedMatch}
+                venue={selectedVenue}
+            />
         </div>
     )
 }
