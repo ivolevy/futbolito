@@ -51,68 +51,58 @@ export default function JugadoresPage() {
   const hasPlayers = fullList.length > 0
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-background to-background">
-      <div className="mx-auto max-w-6xl px-4 py-12 md:py-20">
-        <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 transition-all hover:bg-primary/10">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              <span className="text-xs font-semibold tracking-wide text-primary uppercase">
-                Plantel Oficial 2026
-              </span>
-            </div>
-            <h1 className="mb-3 text-4xl font-black tracking-tight text-foreground md:text-6xl">
-              Nuestros <span className="text-primary">Protagonistas</span>
-            </h1>
-            <p className="max-w-xl text-lg text-muted-foreground leading-relaxed">
-              La elite del futbolito. Talentos individuales unidos por la disciplina del asado post-partido.
-            </p>
-          </div>
-          {!loading && hasPlayers && (
-            <div className="flex items-center gap-3 rounded-2xl border border-primary/10 bg-card/50 backdrop-blur-md px-6 py-3 shadow-sm transition-all hover:shadow-md">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
-                <Users className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground leading-none">{fullList.length}</p>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Jugadores</p>
-              </div>
-            </div>
-          )}
+    <div className="mx-auto max-w-6xl px-4 py-8 md:py-12">
+      <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between border-b border-border pb-8">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            Plantel <span className="text-primary">2026</span>
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Estadísticas y perfiles técnicos de la plantilla.
+          </p>
         </div>
-
-        {loading ? (
-          <div className="flex h-64 items-center justify-center">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
-          </div>
-        ) : !hasPlayers ? (
-          <div className="rounded-3xl border border-dashed border-border bg-card/30 p-20 text-center backdrop-blur-sm">
-            <Users className="mx-auto mb-6 h-16 w-16 text-muted-foreground/20" />
-            <h2 className="mb-3 text-2xl font-bold text-foreground">El vestuario está vacío</h2>
-            <p className="text-muted-foreground max-w-sm mx-auto">
-              Los jugadores se registran automáticamente al disputar partidos oficiales de la temporada.
-            </p>
-          </div>
-        ) : (
-          <div className="grid gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {fullList.map((player, index) => (
-              <PlayerCard
-                key={player.name}
-                player={player}
-                rank={index + 1}
-                onShowDetails={() => handleShowDetails(player)}
-              />
-            ))}
+        {!loading && hasPlayers && (
+          <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 md:self-center">
+            <Users className="h-3.5 w-3.5 text-primary" />
+            <span className="text-xs font-medium text-muted-foreground">
+              <span className="font-bold text-foreground">{fullList.length}</span> jugadores
+            </span>
           </div>
         )}
-
-        <PlayerDetailsModal
-          player={selectedPlayer}
-          isOpen={isModalOpen}
-          onOpenChange={setIsModalOpen}
-        />
       </div>
+
+      {loading ? (
+        <div className="flex h-64 items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+        </div>
+      ) : !hasPlayers ? (
+        <div className="rounded-xl border border-border bg-card p-12 text-center">
+          <Users className="mx-auto mb-4 h-12 w-12 text-muted-foreground/30" />
+          <h2 className="mb-2 text-xl font-semibold text-foreground">Sin jugadores todavia</h2>
+          <p className="text-muted-foreground">
+            Los jugadores aparecen automáticamente al registrarse en los partidos.
+          </p>
+        </div>
+      ) : (
+        <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {fullList.map((player, index) => (
+            <PlayerCard
+              key={player.name}
+              player={player}
+              rank={index + 1}
+              onShowDetails={() => handleShowDetails(player)}
+            />
+          ))}
+        </div>
+      )}
+
+      <PlayerDetailsModal
+        player={selectedPlayer}
+        isOpen={isModalOpen}
+        onOpenChange={setIsModalOpen}
+      />
     </div>
+    </div >
   )
 }
 
