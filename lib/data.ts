@@ -1,18 +1,12 @@
 // Futbolito 2026 - Data Layer
-// This is the central data store for all matches, venues, and stats.
-import { supabase } from "./supabase"
+// Reverted to hardcoded data for reliability and performance.
+// Removed assists and MVP as requested.
 
 export type MatchStatus = "programado" | "jugado"
 
 export interface Scorer {
   player: string
   goals: number
-  team: "A" | "B"
-}
-
-export interface Assist {
-  player: string
-  assists: number
   team: "A" | "B"
 }
 
@@ -26,8 +20,6 @@ export interface Match {
   scoreA: number | null
   scoreB: number | null
   scorers: Scorer[]
-  assists: Assist[]
-  mvp: string | null
   status: MatchStatus
 }
 
@@ -42,24 +34,6 @@ export interface Venue {
   matchesPlayed: number
 }
 
-export async function getVenues(): Promise<Venue[]> {
-  const { data, error } = await supabase.from("venues").select("*").order("name")
-  if (error) {
-    console.error("Error fetching venues:", error)
-    return []
-  }
-  return data || []
-}
-
-export async function getMatches(): Promise<Match[]> {
-  const { data, error } = await supabase.from("matches").select("*").order("date", { ascending: false })
-  if (error) {
-    console.error("Error fetching matches:", error)
-    return []
-  }
-  return data || []
-}
-
 export interface Player {
   id: string
   name: string
@@ -68,28 +42,78 @@ export interface Player {
   number?: number
 }
 
-export async function getPlayers(): Promise<Player[]> {
-  const { data, error } = await supabase.from("players").select("*").order("name")
-  if (error) {
-    console.error("Error fetching players:", error)
-    return []
+// Hardcoded Venues
+export const venues: Venue[] = [
+  {
+    id: "poli-cramer",
+    name: "Poli de Cramer",
+    address: "Cramer, Buenos Aires",
+    mapsUrl: "https://www.google.com/maps/place/poli+de+cramer/data=!4m2!3m1!1s0x95bcb68498961e29:0x1e71d5172fcb6eea",
+    notes: "Cancha de futbol 5. Buen estado del cesped sintetico.",
+    matchesPlayed: 1
   }
-  return data || []
+]
+
+// Hardcoded Players (Updated with friends and siblings)
+export const players: Player[] = [
+  { id: "ivo", name: "Ivo" },
+  { id: "panchi", name: "Panchi" },
+  { id: "mati-c", name: "Mati C." },
+  { id: "roberto", name: "Roberto" },
+  { id: "stilman", name: "Stilman" },
+  { id: "ayax", name: "Ayax" },
+  { id: "tizi", name: "Tizi" },
+  { id: "dami", name: "Dami" },
+  { id: "chino", name: "Chino" },
+  { id: "nico", name: "Nico" },
+  { id: "mati-v", name: "Mati V" },
+  { id: "maxi", name: "Maxi (Amigo Mati)" },
+  { id: "luca", name: "Luca (Amigo Chino)" },
+  { id: "lautaro", name: "Lautaro (Amigo Chino)" },
+  { id: "enzo", name: "Enzo (Amigo Chino)" },
+  { id: "ilo", name: "Ilo (Amigo Ivo)" },
+  { id: "tomi", name: "Tomi (Amigo Ivo)" }
+]
+
+// Hardcoded Matches
+export const matches: Match[] = [
+  {
+    id: "match-001",
+    date: "2026-03-03",
+    time: "22:00",
+    venueId: "poli-cramer",
+    teamA: ["Mati C.", "Mati V", "Maxi (Amigo Mati)", "Nico", "Chino", "Luca (Amigo Chino)", "Lautaro (Amigo Chino)", "Enzo (Amigo Chino)"],
+    teamB: ["Roberto", "Ayax", "Panchi", "Tizi", "Ivo", "Dami", "Ilo (Amigo Ivo)", "Tomi (Amigo Ivo)"],
+    scoreA: 8,
+    scoreB: 5,
+    scorers: [
+      { player: "Chino", goals: 5, team: "A" },
+      { player: "Mati C.", goals: 2, team: "A" },
+      { player: "Nico", goals: 1, team: "A" }
+    ],
+    status: "jugado"
+  }
+]
+
+export async function getVenues(): Promise<Venue[]> {
+  return venues
 }
 
-export async function getAllPlayers(): Promise<{
-  name: string
-  matches: number
-  goals: number
-  assists: number
-  mvps: number
-  goalsPerMatch: number
-}[]> {
-  const matches = await getMatches()
-  const playerMap: Record<
-    string,
-    { matches: number; goals: number; assists: number; mvps: number }
-  > = {}
+export async function getMatches(): Promise<Match[]> {
+  return matches
+}
+
+export async function getPlayers(): Promise<Player[]> {
+  return players
+}
+
+export async function getAllPlayers() {
+  const playerMap: Record<string, { matches: number; goals: number }> = {}
+
+  // Initialize with the hardcoded players list
+  players.forEach(p => {
+    playerMap[p.name] = { matches: 0, goals: 0 }
+  })
 
   matches
     .filter((m) => m.status === "jugado")
@@ -97,73 +121,39 @@ export async function getAllPlayers(): Promise<{
       const allPlayers = [...match.teamA, ...match.teamB]
       allPlayers.forEach((p) => {
         if (!playerMap[p])
-          playerMap[p] = { matches: 0, goals: 0, assists: 0, mvps: 0 }
+          playerMap[p] = { matches: 0, goals: 0 }
         playerMap[p].matches += 1
       })
       match.scorers.forEach((s) => {
         if (!playerMap[s.player])
-          playerMap[s.player] = { matches: 0, goals: 0, assists: 0, mvps: 0 }
+          playerMap[s.player] = { matches: 0, goals: 0 }
         playerMap[s.player].goals += s.goals
       })
-      match.assists.forEach((a) => {
-        if (!playerMap[a.player])
-          playerMap[a.player] = { matches: 0, goals: 0, assists: 0, mvps: 0 }
-        playerMap[a.player].assists += a.assists
-      })
-      if (match.mvp && playerMap[match.mvp]) {
-        playerMap[match.mvp].mvps += 1
-      }
     })
 
   return Object.entries(playerMap)
     .map(([name, data]) => ({
       name,
       ...data,
-      goalsPerMatch:
-        data.matches > 0 ? +(data.goals / data.matches).toFixed(2) : 0,
+      goalsPerMatch: data.matches > 0 ? +(data.goals / data.matches).toFixed(2) : 0,
     }))
     .sort((a, b) => b.matches - a.matches || b.goals - a.goals)
 }
 
-// Helper functions
 export async function getVenueById(id: string): Promise<Venue | undefined> {
-  const { data, error } = await supabase.from("venues").select("*").eq("id", id).single()
-  if (error) return undefined
-  return data
+  return venues.find(v => v.id === id)
 }
 
 export async function getNextMatch(): Promise<Match | undefined> {
   const now = new Date().toISOString().split("T")[0]
-  const { data, error } = await supabase
-    .from("matches")
-    .select("*")
-    .eq("status", "programado")
-    .gte("date", now)
-    .order("date", { ascending: true })
-    .order("time", { ascending: true })
-    .limit(1)
-    .single()
-
-  if (error) return undefined
-  return data
+  return matches.find(m => m.status === "programado" && m.date >= now)
 }
 
 export async function getLastPlayedMatch(): Promise<Match | undefined> {
-  const { data, error } = await supabase
-    .from("matches")
-    .select("*")
-    .eq("status", "jugado")
-    .order("date", { ascending: false })
-    .order("time", { ascending: false })
-    .limit(1)
-    .single()
-
-  if (error) return undefined
-  return data
+  return matches.filter(m => m.status === "jugado").sort((a, b) => b.date.localeCompare(a.date))[0]
 }
 
-export async function getTopScorers(limit = 5) {
-  const matches = await getMatches()
+export async function getTopScorers(limit = 20) {
   const scorerMap: Record<string, { goals: number; matches: number }> = {}
   matches
     .filter((m) => m.status === "jugado")
@@ -191,58 +181,15 @@ export async function getTopScorers(limit = 5) {
     .slice(0, limit)
 }
 
-export async function getTopAssists(limit = 5) {
-  const matches = await getMatches()
-  const assistMap: Record<string, number> = {}
-  matches
-    .filter((m) => m.status === "jugado")
-    .forEach((match) => {
-      match.assists.forEach((a) => {
-        if (!assistMap[a.player]) assistMap[a.player] = 0
-        assistMap[a.player] += a.assists
-      })
-    })
-
-  return Object.entries(assistMap)
-    .map(([name, assists]) => ({ name, assists }))
-    .sort((a, b) => b.assists - a.assists)
-    .slice(0, limit)
-}
-
-export async function getMvpRanking(limit = 5) {
-  const matches = await getMatches()
-  const mvpMap: Record<string, number> = {}
-  matches
-    .filter((m) => m.status === "jugado" && m.mvp)
-    .forEach((match) => {
-      if (!mvpMap[match.mvp!]) mvpMap[match.mvp!] = 0
-      mvpMap[match.mvp!] += 1
-    })
-
-  return Object.entries(mvpMap)
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, limit)
-}
-
 export function formatDateLong(dateStr: string): string {
   const date = new Date(dateStr + "T12:00:00")
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }
+  const options: Intl.DateTimeFormatOptions = { weekday: "long", day: "numeric", month: "long", year: "numeric" }
   const formatted = date.toLocaleDateString("es-AR", options)
   return formatted.charAt(0).toUpperCase() + formatted.slice(1)
 }
 
 export function formatDateShort(dateStr: string): string {
   const date = new Date(dateStr + "T12:00:00")
-  const options: Intl.DateTimeFormatOptions = {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }
+  const options: Intl.DateTimeFormatOptions = { day: "2-digit", month: "2-digit", year: "numeric" }
   return date.toLocaleDateString("es-AR", options)
 }

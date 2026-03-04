@@ -1,8 +1,7 @@
-import { CalendarDays, MapPin, Clock, Trophy, Star, ExternalLink } from "lucide-react"
+import { CalendarDays, MapPin, Clock, Trophy, ExternalLink } from "lucide-react"
 import type { Match } from "@/lib/data"
 import { formatDateLong } from "@/lib/data"
 import { AdminMatchControls } from "./admin/match-controls"
-import { getVenues } from "@/lib/data"
 
 interface MatchCardProps {
   match: Match
@@ -54,31 +53,38 @@ export async function MatchCard({ match, venues }: MatchCardProps) {
 
         {/* Score / Teams */}
         <div className="flex items-center justify-center gap-6 rounded-lg bg-secondary/30 py-4">
-          <div className="text-center">
-            <p className="text-sm font-semibold text-foreground">Equipo A</p>
+          <div className="text-center flex flex-col items-center gap-1">
+            <p className={`text-sm font-semibold ${isPlayed && match.scoreA! > match.scoreB! ? "text-primary underline decoration-2 underline-offset-4" : "text-foreground"}`}>
+              Equipo A
+            </p>
             {match.teamA.length > 0 && (
               <div className="mt-1 space-y-0.5">
                 {match.teamA.map((p: string) => (
-                  <p key={p} className="text-xs text-muted-foreground">{p}</p>
+                  <p key={p} className="text-[10px] text-muted-foreground leading-tight">{p}</p>
                 ))}
               </div>
             )}
           </div>
           <div className="text-center">
             {isPlayed ? (
-              <p className="text-3xl font-bold text-primary">
-                {match.scoreA} - {match.scoreB}
-              </p>
+              <div className="flex flex-col items-center">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-primary mb-1">Ganador</span>
+                <p className="text-2xl font-bold text-primary">
+                  {match.scoreA! > match.scoreB! ? "A" : match.scoreB! > match.scoreA! ? "B" : "Empate"}
+                </p>
+              </div>
             ) : (
               <p className="text-2xl font-bold text-muted-foreground">vs</p>
             )}
           </div>
-          <div className="text-center">
-            <p className="text-sm font-semibold text-foreground">Equipo B</p>
+          <div className="text-center flex flex-col items-center gap-1">
+            <p className={`text-sm font-semibold ${isPlayed && match.scoreB! > match.scoreA! ? "text-primary underline decoration-2 underline-offset-4" : "text-foreground"}`}>
+              Equipo B
+            </p>
             {match.teamB.length > 0 && (
               <div className="mt-1 space-y-0.5">
                 {match.teamB.map((p: string) => (
-                  <p key={p} className="text-xs text-muted-foreground">{p}</p>
+                  <p key={p} className="text-[10px] text-muted-foreground leading-tight">{p}</p>
                 ))}
               </div>
             )}
@@ -102,13 +108,6 @@ export async function MatchCard({ match, venues }: MatchCardProps) {
                     ))}
                   </div>
                 </div>
-              </div>
-            )}
-            {match.mvp && (
-              <div className="flex items-center gap-2 text-sm">
-                <Star className="h-4 w-4 text-primary" />
-                <span className="text-xs text-muted-foreground">MVP:</span>
-                <span className="font-medium text-primary">{match.mvp}</span>
               </div>
             )}
           </div>

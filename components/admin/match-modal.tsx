@@ -17,13 +17,12 @@ export function MatchModal({ match, venues, onClose }: MatchModalProps) {
     const [formData, setFormData] = useState({
         date: match?.date || new Date().toISOString().split("T")[0],
         time: match?.time || "21:00",
-        venue_id: match?.venue_id || venues[0]?.id || "",
+        venue_id: match?.venueId || match?.venue_id || venues[0]?.id || "",
         status: match?.status || "programado",
-        score_a: match?.score_a ?? "",
-        score_b: match?.score_b ?? "",
-        team_a: match?.team_a || [],
-        team_b: match?.team_b || [],
-        mvp: match?.mvp || "",
+        score_a: match?.scoreA ?? match?.score_a ?? "",
+        score_b: match?.scoreB ?? match?.score_b ?? "",
+        team_a: match?.teamA || match?.team_a || [],
+        team_b: match?.teamB || match?.team_b || [],
     })
 
     const [teamAText, setTeamAText] = useState(formData.team_a.join(", "))
@@ -141,18 +140,6 @@ export function MatchModal({ match, venues, onClose }: MatchModalProps) {
                                             className="w-full rounded-lg border border-input bg-secondary/30 px-3 py-2 text-sm"
                                         />
                                     </div>
-                                </div>
-                            )}
-                            {formData.status === "jugado" && (
-                                <div>
-                                    <label className="mb-1.5 block text-sm font-medium">MVP</label>
-                                    <input
-                                        type="text"
-                                        value={formData.mvp}
-                                        onChange={e => setFormData({ ...formData, mvp: e.target.value })}
-                                        className="w-full rounded-lg border border-input bg-secondary/30 px-3 py-2 text-sm"
-                                        placeholder="Nombre del MVP"
-                                    />
                                 </div>
                             )}
                         </div>

@@ -1,15 +1,13 @@
-import { getTopScorers, getTopAssists, getMvpRanking, getMatches } from "@/lib/data"
-import { Trophy, Target, Handshake, Star } from "lucide-react"
+import { getTopScorers, getMatches } from "@/lib/data"
+import { Trophy, Target } from "lucide-react"
 
 export const metadata = {
   title: "Estadisticas | Futbolito 2026",
-  description: "Rankings de goleadores, asistencias, MVPs y estadisticas generales.",
+  description: "Rankings de goleadores y estadisticas generales.",
 }
 
 export default async function EstadisticasPage() {
   const scorers = await getTopScorers(20)
-  const assists = await getTopAssists(20)
-  const mvps = await getMvpRanking(20)
   const matches = await getMatches()
   const playedMatches = matches.filter((m) => m.status === "jugado")
   const hasData = playedMatches.length > 0
@@ -30,7 +28,7 @@ export default async function EstadisticasPage() {
           </p>
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2">
           {/* Goleadores */}
           <StatTable
             title="Goleadores"
@@ -42,27 +40,9 @@ export default async function EstadisticasPage() {
             }))}
           />
 
-          {/* Asistencias */}
-          <StatTable
-            title="Asistencias"
-            icon={<Handshake className="h-4 w-4 text-primary" />}
-            columns={["Jugador", "Asist."]}
-            rows={assists.map((a, i) => ({
-              rank: i + 1,
-              cells: [a.name, String(a.assists)],
-            }))}
-          />
-
-          {/* MVPs */}
-          <StatTable
-            title="Ranking MVP"
-            icon={<Star className="h-4 w-4 text-primary" />}
-            columns={["Jugador", "Veces"]}
-            rows={mvps.map((m, i) => ({
-              rank: i + 1,
-              cells: [m.name, String(m.count)],
-            }))}
-          />
+          <div className="hidden md:block">
+            {/* Espacio reservado o algun otro widget futuro */}
+          </div>
         </div>
       )}
     </div>

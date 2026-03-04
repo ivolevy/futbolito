@@ -1,5 +1,5 @@
 import { getAllPlayers, getMatches } from "@/lib/data"
-import { Users, Trophy, Target, Handshake, Star, ShieldCheck } from "lucide-react"
+import { Users, Trophy, Target, ShieldCheck } from "lucide-react"
 
 export const metadata = {
   title: "Jugadores | Futbolito 2026",
@@ -28,8 +28,6 @@ export default async function JugadoresPage() {
         name,
         matches: 0,
         goals: 0,
-        assists: 0,
-        mvps: 0,
         goalsPerMatch: 0,
       })),
   ]
@@ -68,30 +66,6 @@ export default async function JugadoresPage() {
         </div>
       ) : (
         <>
-          {/* Summary cards */}
-          <div className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-4">
-            <SummaryCard
-              label="Total jugadores"
-              value={fullList.length}
-              icon={<Users className="h-4 w-4 text-primary" />}
-            />
-            <SummaryCard
-              label="Goles totales"
-              value={fullList.reduce((sum, p) => sum + p.goals, 0)}
-              icon={<Target className="h-4 w-4 text-primary" />}
-            />
-            <SummaryCard
-              label="Asistencias totales"
-              value={fullList.reduce((sum, p) => sum + p.assists, 0)}
-              icon={<Handshake className="h-4 w-4 text-primary" />}
-            />
-            <SummaryCard
-              label="MVPs otorgados"
-              value={fullList.reduce((sum, p) => sum + p.mvps, 0)}
-              icon={<Star className="h-4 w-4 text-primary" />}
-            />
-          </div>
-
           {/* Player cards grid */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {fullList.map((player, index) => (
@@ -104,26 +78,6 @@ export default async function JugadoresPage() {
   )
 }
 
-function SummaryCard({
-  label,
-  value,
-  icon,
-}: {
-  label: string
-  value: number
-  icon: React.ReactNode
-}) {
-  return (
-    <div className="rounded-xl border border-border bg-card p-4">
-      <div className="mb-2 flex items-center gap-2">
-        {icon}
-        <span className="text-xs text-muted-foreground">{label}</span>
-      </div>
-      <p className="text-2xl font-bold tabular-nums text-foreground">{value}</p>
-    </div>
-  )
-}
-
 function PlayerCard({
   player,
   rank,
@@ -132,8 +86,6 @@ function PlayerCard({
     name: string
     matches: number
     goals: number
-    assists: number
-    mvps: number
     goalsPerMatch: number
   }
   rank: number
@@ -161,21 +113,11 @@ function PlayerCard({
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-4 divide-x divide-border">
+      <div className="grid grid-cols-2 divide-x divide-border">
         <StatCell
           icon={<Target className="h-3.5 w-3.5 text-primary" />}
           value={player.goals}
           label="Goles"
-        />
-        <StatCell
-          icon={<Handshake className="h-3.5 w-3.5 text-primary" />}
-          value={player.assists}
-          label="Asist."
-        />
-        <StatCell
-          icon={<Star className="h-3.5 w-3.5 text-primary" />}
-          value={player.mvps}
-          label="MVP"
         />
         <StatCell
           icon={<ShieldCheck className="h-3.5 w-3.5 text-primary" />}
