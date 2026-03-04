@@ -21,7 +21,7 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
         {/* Subtle pitch pattern */}
-        <div className="pointer-events-none absolute inset-0 opacity-[0.03]">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.08]">
           <div className="absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-foreground" />
           <div className="absolute left-1/2 top-0 h-full w-px bg-foreground" />
           <div className="absolute left-0 top-1/4 h-1/2 w-1/5 rounded-r-full border-2 border-foreground" />
