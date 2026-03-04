@@ -49,28 +49,44 @@ export default async function HomePage() {
       <div className="mx-auto max-w-6xl px-4 py-12 space-y-16">
         <NewsSection news={news} />
 
-        {/* Analysis Section */}
-        <section>
-          <div className="mb-8 flex items-center justify-between border-b border-border pb-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <FileText className="h-5 w-5" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold tracking-tight text-foreground">El Análisis de la Fecha</h2>
-                <p className="text-sm text-muted-foreground">La mirada experta sobre lo que dejó la jornada.</p>
-              </div>
+        {/* Editorial Analysis Section */}
+        <section className="relative">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl font-black tracking-tight text-foreground md:text-4xl">
+              El Análisis de la Fecha
+            </h2>
+            <div className="mt-2 flex items-center justify-center gap-2">
+              <span className="h-px w-8 bg-primary/30" />
+              <p className="text-sm font-bold uppercase tracking-widest text-primary">La mirada experta</p>
+              <span className="h-px w-8 bg-primary/30" />
             </div>
           </div>
 
-          <div className="rounded-2xl border border-border bg-card p-8 shadow-sm transition-all hover:border-primary/20">
-            <div className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
-              <Calendar className="h-3.5 w-3.5" />
-              {analysis.date}
-            </div>
-            <h3 className="mb-4 text-3xl font-bold tracking-tight text-foreground">{analysis.title}</h3>
-            <div className="prose prose-sm prose-invert max-w-none text-muted-foreground leading-relaxed">
-              <p>{analysis.content}</p>
+          <div className="mx-auto max-w-3xl">
+            <article className="prose prose-lg prose-invert mx-auto">
+              <div className="mb-8 flex items-center justify-center gap-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/60">
+                <div className="flex items-center gap-1.5">
+                  <Calendar className="h-3.5 w-3.5" />
+                  {analysis.date}
+                </div>
+                <span className="h-1 w-1 rounded-full bg-border" />
+                <div className="text-primary">{analysis.author}</div>
+              </div>
+
+              <h3 className="mb-8 text-center text-4xl font-extrabold leading-tight text-foreground md:text-5xl">
+                {analysis.title}
+              </h3>
+
+              <div className="relative">
+                <div className="absolute -left-4 top-0 h-full w-1 bg-gradient-to-b from-primary/50 to-transparent" />
+                <p className="text-xl leading-relaxed text-muted-foreground italic first-letter:text-5xl first-letter:font-black first-letter:text-primary first-letter:mr-3 first-letter:float-left">
+                  {analysis.content}
+                </p>
+              </div>
+            </article>
+
+            <div className="mt-12 flex justify-center">
+              <div className="h-px w-24 bg-gradient-to-r from-transparent via-border to-transparent" />
             </div>
           </div>
         </section>

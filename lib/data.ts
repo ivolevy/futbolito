@@ -98,13 +98,15 @@ export interface Analysis {
   id: string
   title: string
   content: string
+  author: string
   date: string
 }
 
 export const matchAnalysis: Analysis = {
   id: "analysis-1",
   title: "Análisis de la Fecha 1: Entre el asado y el sudor",
-  content: "La primera fecha nos dejó mucho para cortar. Más allá de los resultados, lo que primó fue la camaradería y las ganas de volver a rodar. El Chino se erige como la figura indiscutida con su póker de goles, pero la gran sorpresa fue el despliegue físico de algunos que venían de un retiro casi definitivo. Las canchas del Poli de Cramer respondieron bien, aunque se notó la falta de 'fina' en los pases finales. Para la próxima semana, el desafío es claro: menos panza y más precisión.",
+  content: "La primera fecha nos dejó mucho para cortar. Más allá de los resultados, lo que primó fue la camaradería y las ganas de volver a rodar. La gran sorpresa fue el despliegue físico de algunos que venían de un retiro casi definitivo. Las canchas del Poli de Cramer respondieron bien, aunque se notó la falta de 'fina' en los pases finales. Para la próxima semana, el desafío es claro: menos panza y más precisión.",
+  author: "Por Matias Costa - Periodista",
   date: "2026-03-04"
 }
 
