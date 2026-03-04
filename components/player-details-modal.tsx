@@ -35,7 +35,7 @@ export function PlayerDetailsModal({ player, isOpen, onOpenChange }: PlayerDetai
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-md p-0 overflow-hidden border-none bg-background/95 backdrop-blur-3xl outline-none shadow-2xl rounded-[2rem]">
+            <DialogContent className="max-w-[700px] w-[95vw] p-0 overflow-hidden border-none bg-background/95 backdrop-blur-3xl outline-none shadow-2xl rounded-[2rem]">
                 {/* Minimal Header with Large Initial Watermark */}
                 <div className="relative border-b border-border/5 px-6 py-8 md:px-10 md:py-10 flex flex-col items-center text-center overflow-hidden">
                     {player.photo ? (

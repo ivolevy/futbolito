@@ -238,8 +238,9 @@ export async function getAllPlayers() {
 
   // Initialize with DB players and merge hardcoded data if available
   dbPlayers.forEach(p => {
-    const hardcodedRef = players.find(h => h.name.toLowerCase() === p.name.toLowerCase())
-    playerMap[p.name] = {
+    const norm = p.name.toLowerCase()
+    const hardcodedRef = players.find(h => h.name.toLowerCase() === norm)
+    playerMap[norm] = {
       id: p.id,
       name: p.name,
       matches: 0,
@@ -253,8 +254,9 @@ export async function getAllPlayers() {
 
   // Add hardcoded players if they don't exist in DB
   players.forEach(p => {
-    if (!playerMap[p.name]) {
-      playerMap[p.name] = {
+    const norm = p.name.toLowerCase()
+    if (!playerMap[norm]) {
+      playerMap[norm] = {
         name: p.name,
         matches: 0,
         goals: 0,
@@ -274,16 +276,18 @@ export async function getAllPlayers() {
     .forEach((match) => {
       const allPlayers = [...(match.teamA || match.team_a || []), ...(match.teamB || match.team_b || [])]
       allPlayers.forEach((p) => {
-        if (!playerMap[p])
-          playerMap[p] = { name: p, matches: 0, goals: 0 }
-        playerMap[p].matches += 1
+        const norm = p.toLowerCase()
+        if (!playerMap[norm])
+          playerMap[norm] = { name: p, matches: 0, goals: 0 }
+        playerMap[norm].matches += 1
       })
       const scorers = match.scorers || []
       scorers.forEach((s: any) => {
         const playerName = typeof s === 'string' ? s : s.player
-        if (!playerMap[playerName])
-          playerMap[playerName] = { name: playerName, matches: 0, goals: 0 }
-        playerMap[playerName].goals += (s.goals || 1)
+        const norm = playerName.toLowerCase()
+        if (!playerMap[norm])
+          playerMap[norm] = { name: playerName, matches: 0, goals: 0 }
+        playerMap[norm].goals += (s.goals || 1)
       })
     })
 
