@@ -9,6 +9,8 @@ export const metadata = {
   description: "Historial completo de partidos de la temporada 2026.",
 }
 
+export const revalidate = 0
+
 export default async function PartidosPage() {
   const matches = await getMatches()
   const venues = await getVenues()

@@ -7,6 +7,8 @@ export const metadata = {
     description: "Reviví los mejores momentos, goles y bloopers de la temporada.",
 }
 
+export const revalidate = 0
+
 export default async function VideosPage() {
     const [matches, venues] = await Promise.all([getMatches(), getVenues()])
 

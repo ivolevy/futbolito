@@ -7,6 +7,8 @@ export const metadata = {
   description: "Todas las canchas donde se jugaron partidos de la temporada.",
 }
 
+export const revalidate = 0
+
 export default async function CanchasPage() {
   const venues = await getVenues()
   const matches = await getMatches()

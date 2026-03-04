@@ -6,6 +6,8 @@ export const metadata = {
   description: "Rankings de goleadores y estadisticas generales.",
 }
 
+export const revalidate = 0
+
 export default async function EstadisticasPage() {
   const scorers = await getTopScorers(20)
   const matches = await getMatches()

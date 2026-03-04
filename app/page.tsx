@@ -10,6 +10,8 @@ const matchAnalysis = {
   date: "2026-03-04"
 }
 
+export const revalidate = 0
+
 export default async function HomePage() {
   const news = await getNews()
 

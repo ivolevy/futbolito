@@ -15,6 +15,8 @@ const videoTypeConfig = {
     blooper: { label: "Bloopers", icon: AlertTriangle, color: "text-destructive", bg: "bg-destructive/10" },
 }
 
+export const revalidate = 0
+
 export default async function MatchVideosPage({ params }: { params: { matchId: string } }) {
     const matches = await getMatches()
     const match = matches.find((m) => m.id === params.matchId)
