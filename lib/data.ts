@@ -21,6 +21,16 @@ export interface Match {
   status: MatchStatus
 }
 
+export type VideoType = "jugada" | "blooper" | "gol"
+
+export interface MatchVideo {
+  id: string
+  matchId: string
+  type: VideoType
+  title: string
+  url: string
+}
+
 export interface Venue {
   id: string
   name: string
@@ -82,6 +92,44 @@ export const matchAnalysis: Analysis = {
   author: "Por Matias Costa - Periodista",
   date: "2026-03-04"
 }
+
+export const matchVideos: MatchVideo[] = [
+  {
+    id: "v-1",
+    matchId: "match-1",
+    type: "gol",
+    title: "El Chino abre el marcador con un derechazo",
+    url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  },
+  {
+    id: "v-2",
+    matchId: "match-1",
+    type: "blooper",
+    title: "Tomi ataja con la cara",
+    url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  },
+  {
+    id: "v-3",
+    matchId: "match-1",
+    type: "jugada",
+    title: "Pase filtrado del Chino",
+    url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  },
+  {
+    id: "v-4",
+    matchId: "match-2",
+    type: "jugada",
+    title: "Nico gambetea a tres",
+    url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  },
+  {
+    id: "v-5",
+    matchId: "match-2",
+    type: "gol",
+    title: "Golazo de tiro libre de Ivo",
+    url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  }
+]
 
 // Hardcoded News
 export const news: News[] = [
@@ -351,4 +399,8 @@ export function formatDateShort(dateStr: string): string {
   const date = new Date(dateStr + "T12:00:00")
   const options: Intl.DateTimeFormatOptions = { day: "2-digit", month: "2-digit", year: "numeric" }
   return date.toLocaleDateString("es-AR", options)
+}
+
+export async function getMatchVideos(matchId: string): Promise<MatchVideo[]> {
+  return matchVideos.filter(v => v.matchId === matchId)
 }
