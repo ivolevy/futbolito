@@ -236,17 +236,18 @@ export async function getAllPlayers() {
     photo?: string;
   }> = {}
 
-  // Initialize with DB players
+  // Initialize with DB players and merge hardcoded data if available
   dbPlayers.forEach(p => {
+    const hardcodedRef = players.find(h => h.name.toLowerCase() === p.name.toLowerCase())
     playerMap[p.name] = {
       id: p.id,
       name: p.name,
       matches: 0,
       goals: 0,
-      skills: p.skills,
-      weaknesses: p.weaknesses,
-      social: p.social,
-      photo: p.photo
+      skills: p.skills || hardcodedRef?.skills,
+      weaknesses: p.weaknesses || hardcodedRef?.weaknesses,
+      social: p.social || hardcodedRef?.social,
+      photo: p.photo || hardcodedRef?.photo
     }
   })
 
