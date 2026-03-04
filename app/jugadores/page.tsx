@@ -102,7 +102,6 @@ export default function JugadoresPage() {
         onOpenChange={setIsModalOpen}
       />
     </div>
-    </div >
   )
 }
 
