@@ -87,7 +87,7 @@ export default function JugadoresPage() {
       ) : (
         <>
           {/* Player cards grid */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
             {fullList.map((player, index) => (
               <PlayerCard
                 key={player.name}
@@ -127,8 +127,8 @@ function PlayerCard({
   return (
     <div className="group overflow-hidden rounded-xl border border-border bg-card transition-all hover:border-primary/30 hover:shadow-sm">
       {/* Player header */}
-      <div className="flex items-center gap-4 bg-secondary/10 px-5 py-4">
-        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary transition-colors group-hover:bg-primary/20">
+      <div className="flex items-center gap-3 bg-secondary/10 px-4 py-3">
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary transition-colors group-hover:bg-primary/20">
           {player.name
             .split(" ")
             .map((n) => n[0])
@@ -136,13 +136,12 @@ function PlayerCard({
             .toUpperCase()
             .slice(0, 2)}
         </div>
-        <div className="flex-1">
-          <h3 className="font-bold text-foreground">{player.name}</h3>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-bold text-sm text-foreground truncate">{player.name}</h3>
+          <p className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
             {player.position || "Jugador"}
           </p>
         </div>
-        <span className="text-xs font-bold text-primary/40">#{rank}</span>
       </div>
 
       {/* Action */}
