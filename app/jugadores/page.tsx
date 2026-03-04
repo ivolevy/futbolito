@@ -65,7 +65,7 @@ export default function JugadoresPage() {
         )}
       </div>
 
-      <div loading={loading} className="space-y-16">
+      <div className="space-y-16">
         {loading ? (
           <div className="flex h-64 items-center justify-center">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
