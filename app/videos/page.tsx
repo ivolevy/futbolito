@@ -1,6 +1,6 @@
-import { getMatches } from "@/lib/data"
+import { getMatches, getVenues } from "@/lib/data"
 import Link from "next/link"
-import { Play } from "lucide-react"
+import { Play, MapPin } from "lucide-react"
 
 export const metadata = {
     title: "Videos | Futbolito 2026",
@@ -8,12 +8,14 @@ export const metadata = {
 }
 
 export default async function VideosPage() {
-    const matches = await getMatches()
+    const [matches, venues] = await Promise.all([getMatches(), getVenues()])
 
     // Only show matches that have been played
     const playedMatches = matches
         .filter(m => m.status === "jugado")
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
+    const getVenueName = (id: string) => venues.find(v => v.id === id)?.name || "Sede por confirmar"
 
     return (
         <div className="mx-auto max-w-6xl px-4 py-8 md:py-12">
@@ -46,18 +48,9 @@ export default async function VideosPage() {
                             </div>
                         </div>
 
-                        <div className="relative z-10 mt-6 grid grid-cols-3 gap-2 text-center text-sm font-medium">
-                            <div className="rounded-lg bg-background p-2">
-                                <span className="block text-xl font-black text-foreground">{match.scoreA}</span>
-                                <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Eq. A</span>
-                            </div>
-                            <div className="flex items-center justify-center text-muted-foreground">
-                                <span className="text-xs font-bold uppercase">Final</span>
-                            </div>
-                            <div className="rounded-lg bg-background p-2">
-                                <span className="block text-xl font-black text-foreground">{match.scoreB}</span>
-                                <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Eq. B</span>
-                            </div>
+                        <div className="relative z-10 mt-6 flex items-center gap-2 rounded-xl bg-background p-4 text-sm font-medium text-muted-foreground">
+                            <MapPin className="h-4 w-4 text-primary" />
+                            <span>Sede: <strong className="text-foreground">{getVenueName(match.venueId)}</strong></span>
                         </div>
 
                         <div className="relative z-10 mt-6 flex items-center gap-2 text-xs font-medium text-muted-foreground">
