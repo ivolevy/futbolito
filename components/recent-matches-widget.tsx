@@ -46,19 +46,23 @@ export async function RecentMatchesWidget() {
                 <span>{formatDateShort(match.date)}</span>
                 <span>{match.venue?.name}</span>
               </div>
-              <div className="flex items-center justify-center gap-4">
-                <span className="text-sm font-medium text-foreground">Equipo A</span>
-                <span className="rounded-lg bg-primary/10 px-3 py-1 text-xl font-bold tabular-nums text-primary">
-                  {match.scoreA} - {match.scoreB}
-                </span>
-                <span className="text-sm font-medium text-foreground">Equipo B</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <span className={`text-sm font-medium ${match.scoreA! > match.scoreB! ? "text-primary underline decoration-2 underline-offset-4" : "text-foreground"}`}>
+                    Equipo A
+                  </span>
+                  <span className="text-xs text-muted-foreground">vs</span>
+                  <span className={`text-sm font-medium ${match.scoreB! > match.scoreA! ? "text-primary underline decoration-2 underline-offset-4" : "text-foreground"}`}>
+                    Equipo B
+                  </span>
+                </div>
+                <div className="flex flex-col items-end">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Ganador</span>
+                  <p className="text-lg font-bold text-primary">
+                    {match.scoreA! > match.scoreB! ? "A" : match.scoreB! > match.scoreA! ? "B" : "Empate"}
+                  </p>
+                </div>
               </div>
-              {match.mvp && (
-                <p className="mt-2 flex items-center justify-center gap-1 text-xs text-muted-foreground">
-                  <Star className="h-3 w-3 text-primary" />
-                  MVP: <span className="font-medium text-primary">{match.mvp}</span>
-                </p>
-              )}
             </div>
           ))}
         </div>
