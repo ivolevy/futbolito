@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { CalendarDays, MapPin, Clock, Trophy, ChevronLeft, ChevronRight, Calendar as CalendarIcon, Users } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -12,6 +12,14 @@ interface MatchCalendarProps {
 export function MatchCalendar({ matches, venues }: MatchCalendarProps) {
     const [currentDate, setCurrentDate] = useState(new Date(2026, 2, 1)) // Default to March 2026
     const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null)
+    const detailsRef = useRef<HTMLDivElement>(null)
+
+    // Scroll to details when a match is selected
+    useEffect(() => {
+        if (selectedMatchId && detailsRef.current) {
+            detailsRef.current.scrollIntoView({ behavior: "smooth", block: "start" })
+        }
+    }, [selectedMatchId])
 
     const daysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate()
     const firstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay()
@@ -148,8 +156,12 @@ export function MatchCalendar({ matches, venues }: MatchCalendarProps) {
 
             {/* Match Details Section */}
             {selectedMatch && (
-                <div className="animate-in fade-in slide-in-from-top-4 duration-300 rounded-xl border border-primary/20 bg-primary/5 p-6 shadow-sm">
+                <div
+                    ref={detailsRef}
+                    className="animate-in fade-in slide-in-from-top-4 duration-300 rounded-xl border border-primary/20 bg-primary/5 p-6 shadow-sm scroll-mt-24"
+                >
                     <div className="mb-4 flex items-center justify-between">
+                        ...
                         <div className="flex items-center gap-2">
                             <Trophy className="h-5 w-5 text-primary" />
                             <h4 className="font-bold text-foreground">Detalles del Partido</h4>
