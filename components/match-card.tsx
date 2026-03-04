@@ -91,27 +91,6 @@ export async function MatchCard({ match, venues }: MatchCardProps) {
           </div>
         </div>
 
-        {/* Match details */}
-        {isPlayed && (
-          <div className="mt-4 space-y-2">
-            {match.scorers.length > 0 && (
-              <div className="flex items-start gap-2 text-sm">
-                <Trophy className="mt-0.5 h-4 w-4 text-primary" />
-                <div>
-                  <span className="text-xs text-muted-foreground">Goles:</span>
-                  <div className="flex flex-wrap gap-x-3">
-                    {match.scorers.map((s: any, i: number) => (
-                      <span key={i} className="text-foreground">
-                        {s.player}{" "}
-                        <span className="text-primary">({s.goals})</span>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
 
         {!isPlayed && match.teamA.length === 0 && (
           <p className="mt-3 text-center text-xs text-muted-foreground">
