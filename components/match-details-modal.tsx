@@ -22,10 +22,10 @@ export function MatchDetailsModal({ match, venue, isOpen, onOpenChange }: MatchD
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-md p-0 overflow-hidden border-border/20 bg-background/95 backdrop-blur-3xl outline-none rounded-[2rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)]">
                 {/* Minimal Header */}
-                <div className="relative border-b border-border/10 px-6 py-6 md:px-8 md:py-8">
+                <DialogHeader className="relative border-b border-border/10 px-6 py-6 md:px-8 md:py-8 text-left">
                     <div className="flex items-center justify-between">
                         <div className="space-y-1">
-                            <h2 className="text-2xl md:text-3xl font-black tracking-tight text-foreground uppercase italic">Detalles del Partido</h2>
+                            <DialogTitle className="text-2xl md:text-3xl font-black tracking-tight text-foreground uppercase italic">Detalles del Partido</DialogTitle>
                             <div className="flex items-center gap-2">
                                 <span className="h-1.5 w-8 rounded-full bg-primary" />
                                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
@@ -37,7 +37,7 @@ export function MatchDetailsModal({ match, venue, isOpen, onOpenChange }: MatchD
                             <Trophy className="h-5 w-5 md:h-6 md:w-6" />
                         </div>
                     </div>
-                </div>
+                </DialogHeader>
 
                 <div className="p-6 md:p-8 space-y-8">
                     {/* Event Info */}
@@ -78,6 +78,7 @@ export function MatchDetailsModal({ match, venue, isOpen, onOpenChange }: MatchD
                             </p>
                         </div>
                     )}
+
 
                     {/* Rosters */}
                     <div className="grid grid-cols-2 gap-8 border-t border-border/10 pt-8">

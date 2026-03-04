@@ -1,11 +1,9 @@
 import { NextMatchCard } from "@/components/next-match-card"
 import { NewsSection } from "@/components/news-section"
-import { getNews, getAnalysis } from "@/lib/data"
+import { news, matchAnalysis } from "@/lib/data"
 import { FileText, Calendar } from "lucide-react"
 
-export default async function HomePage() {
-  const news = await getNews()
-  const analysis = await getAnalysis()
+export default function HomePage() {
 
   return (
     <div className="min-h-screen">
@@ -67,19 +65,19 @@ export default async function HomePage() {
               <div className="mb-8 flex items-center justify-center gap-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/60">
                 <div className="flex items-center gap-1.5">
                   <Calendar className="h-3.5 w-3.5" />
-                  {analysis.date}
+                  {matchAnalysis.date}
                 </div>
                 <span className="h-1 w-1 rounded-full bg-border" />
-                <div className="text-primary">{analysis.author}</div>
+                <div className="text-primary">{matchAnalysis.author}</div>
               </div>
 
               <h3 className="mb-8 text-center text-2xl font-extrabold leading-tight text-foreground md:text-4xl lg:text-5xl">
-                {analysis.title}
+                {matchAnalysis.title}
               </h3>
 
               <div className="relative space-y-6">
                 <div className="absolute -left-4 top-0 h-full w-1 bg-gradient-to-b from-primary/50 to-transparent" />
-                {analysis.content.split('\n\n').map((paragraph, idx) => (
+                {matchAnalysis.content.split('\n\n').map((paragraph, idx) => (
                   <p
                     key={idx}
                     className={`text-xl leading-relaxed text-muted-foreground italic ${idx === 0 ? "first-letter:text-5xl first-letter:font-black first-letter:text-primary first-letter:mr-3 first-letter:float-left" : ""
