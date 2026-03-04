@@ -62,7 +62,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-3xl">
             <article className="prose prose-lg prose-invert mx-auto">
               <div className="mb-8 flex items-center justify-center gap-4 text-xs font-bold uppercase tracking-widest text-muted-foreground/60">
                 <div className="flex items-center gap-1.5">
