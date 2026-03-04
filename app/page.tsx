@@ -1,9 +1,17 @@
 import { NextMatchCard } from "@/components/next-match-card"
 import { NewsSection } from "@/components/news-section"
-import { news, matchAnalysis } from "@/lib/data"
+import { getNews } from "@/lib/data"
 import { FileText, Calendar } from "lucide-react"
 
-export default function HomePage() {
+const matchAnalysis = {
+  title: "Análisis de la Fecha 1: Con más ganas que fútbol",
+  content: "La jornada inaugural del Futbolito 2026 en el Poli de Cramer ha superado las expectativas, no solo por el volumen de goles, sino por el compromiso táctico —y emocional— de los protagonistas. Si bien el ritmo de juego acusó el impacto de la pretemporada y la falta de cardio fue el denominador común en el segundo tiempo, se empezaron a vislumbrar 'cositas' interesantes: triangulaciones punzantes, relevos solidarios y una jerarquía individual que promete un torneo de altísimo vuelo.\n\nEl despliegue físico de algunos veteranos del certamen fue, cuanto menos, conmovedor, compensando con oficio lo que el aire no llega a cubrir. Las canchas lucieron impecables, permitiendo un flujo de balón que solo se vio interrumpido por la lógica imprecisión del debut. Para la próxima fecha, el ajuste es estrictamente metabólico; el fútbol está, solo falta la nafta.\n\nEn lo personal, no puedo cerrar esta crónica sin destacar un momento que resume la esencia de este grupo: la ducha grupal post partido. Esa comunión bajo el agua caliente, donde las fricciones del campo se disuelven en camaradería, es lo que realmente hace grande a este torneo. Hay equipo, hay espíritu y, sobre todo, hay Futbolito.",
+  author: "Por Matias Costa - Periodista",
+  date: "2026-03-04"
+}
+
+export default async function HomePage() {
+  const news = await getNews()
 
   return (
     <div className="min-h-screen">
