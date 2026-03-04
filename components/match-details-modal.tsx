@@ -20,7 +20,7 @@ export function MatchDetailsModal({ match, venue, isOpen, onOpenChange }: MatchD
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-[900px] w-[95vw] p-0 overflow-hidden border-border/20 bg-background/95 backdrop-blur-3xl outline-none rounded-[2rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)]">
+            <DialogContent className="max-w-[1400px] w-[95vw] p-0 overflow-hidden border-border/20 bg-background/95 backdrop-blur-3xl outline-none rounded-[2rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)]">
                 {/* Minimal Header */}
                 <DialogHeader className="relative border-b border-border/10 px-6 py-6 md:px-8 md:py-8 text-left">
                     <div className="flex items-center justify-between">
