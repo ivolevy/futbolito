@@ -29,7 +29,7 @@ export function MatchDetailsModal({ match, venue, isOpen, onOpenChange }: MatchD
                             <div className="flex items-center gap-2">
                                 <span className="h-1.5 w-8 rounded-full bg-primary" />
                                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
-                                    {match.status === "jugado" ? "Resultado Final" : "Próximo Encuentro"}
+                                    {match.status === "jugado" ? "Resultado Final" : "Encuentro Finalizado"}
                                 </p>
                             </div>
                         </div>
