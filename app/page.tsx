@@ -73,17 +73,6 @@ export default async function HomePage() {
       {/* Content */}
       <div className="mx-auto max-w-6xl px-4 py-8 md:py-12">
 
-        {/* Stats overview */}
-        <section className="mb-10">
-          <div className="mb-4 flex items-center gap-2">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Resumen
-            </span>
-            <div className="h-px flex-1 bg-border" />
-          </div>
-          <StatsOverview />
-        </section>
 
         {/* Widgets row */}
         <section className="mb-10">
