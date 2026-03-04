@@ -39,45 +39,6 @@ export default async function PartidosPage() {
             <RecentMatchesWidget />
           </div>
         </div>
-
-        {/* Full History Section */}
-        <div className="max-w-4xl mx-auto space-y-12">
-          {/* Scheduled */}
-          {scheduled.length > 0 && (
-            <section>
-              <div className="mb-6 flex items-center gap-3">
-                <h2 className="text-xl font-bold text-foreground">Programados</h2>
-                <div className="h-px flex-1 bg-border" />
-              </div>
-              <div className="grid gap-6">
-                {scheduled.map((match) => (
-                  <MatchCard key={match.id} match={match} venues={venues} />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Played Full History */}
-          <section>
-            <div className="mb-6 flex items-center gap-3">
-              <h2 className="text-xl font-bold text-foreground">Historial de Partidos</h2>
-              <div className="h-px flex-1 bg-border" />
-            </div>
-            {played.length === 0 ? (
-              <div className="rounded-xl border border-border bg-card p-12 text-center">
-                <p className="text-muted-foreground">
-                  Todavía no hay partidos jugados. Los resultados aparecerán acá a medida que se jueguen.
-                </p>
-              </div>
-            ) : (
-              <div className="grid gap-6">
-                {played.map((match) => (
-                  <MatchCard key={match.id} match={match} venues={venues} />
-                ))}
-              </div>
-            )}
-          </section>
-        </div>
       </div>
     </div>
   )
