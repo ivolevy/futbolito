@@ -34,12 +34,28 @@ export interface Venue {
   matchesPlayed: number
 }
 
+export interface News {
+  id: string
+  title: string
+  subtitle: string
+  content: string
+  image?: string
+  date: string
+}
+
 export interface Player {
   id: string
   name: string
   nickname?: string
   position?: string
   number?: number
+  photo?: string
+  skills?: string[]
+  weaknesses?: string[]
+  social?: {
+    instagram?: string
+    twitter?: string
+  }
 }
 
 // Hardcoded Venues
@@ -54,19 +70,77 @@ export const venues: Venue[] = [
   }
 ]
 
+// Hardcoded News
+export const news: News[] = [
+  {
+    id: "news-1",
+    title: "La vuelta de Stilman, está para atajar en Boca?",
+    subtitle: "El guardameta volvió a las canchas con una actuación que dejó a todos boquiabiertos.",
+    content: "Tras una larga ausencia, Stilman regresó bajo los tres palos en el Poli de Cramer. Con reflejos intactos y una voz de mando que se extrañaba, lideró a su defensa con solvencia. ¿Es exagerado pensar en el Xeneize? Para los presentes en el Futbolito 2026, la respuesta es clara: calidad le sobra.",
+    date: "2026-03-04"
+  },
+  {
+    id: "news-2",
+    title: "El chino, mas en guerra que nunca",
+    subtitle: "Goleador, líder y guerrero. Una radiografía de la mentalidad ganadora que domina el torneo.",
+    content: "No solo fueron los 5 goles en el último partido. Fue la forma en que disputó cada pelota. El Chino ha dejado claro que este 2026 no viene a pasear. 'La gloria es para los que la luchan', declaró tras el pitazo final. Un mensaje directo para sus rivales.",
+    date: "2026-03-04"
+  },
+  {
+    id: "news-3",
+    title: "Sobran ganas, falta nivel",
+    subtitle: "El análisis de una primera fecha intensa pero con detalles por pulir físicamente.",
+    content: "Es natural. Los primeros partidos de la temporada siempre cuestan. Se vio mucha entrega, pulmones al límite y ganas de ganar, pero la precisión y el ritmo de juego aún están en proceso. La buena noticia: a medida que pasen las semanas y los partidos, el nivel futbolístico alcanzará su pico máximo. A aguantar los trapos.",
+    date: "2026-03-04"
+  }
+]
+
 // Hardcoded Players (Updated with friends and siblings)
 export const players: Player[] = [
-  { id: "ivo", name: "Ivo" },
-  { id: "panchi", name: "Panchi" },
-  { id: "mati-c", name: "Mati C." },
-  { id: "roberto", name: "Roberto" },
-  { id: "stilman", name: "Stilman" },
-  { id: "ayax", name: "Ayax" },
-  { id: "tizi", name: "Tizi" },
-  { id: "dami", name: "Dami" },
-  { id: "chino", name: "Chino" },
-  { id: "nico", name: "Nico" },
-  { id: "mati-v", name: "Mati V" },
+  {
+    id: "ivo",
+    name: "Ivo",
+    position: "Mediocampista",
+    skills: ["Visión de juego", "Pase largo", "Estratega"],
+    weaknesses: ["Retroceso lento", "Poca marca"],
+    social: { instagram: "https://instagram.com/ivo" }
+  },
+  {
+    id: "panchi",
+    name: "Panchi",
+    position: "Delantero",
+    skills: ["Potencia", "Definición", "Aguante"],
+    weaknesses: ["Poca movilidad", "Temperamento"],
+    social: { instagram: "https://instagram.com/panchi" }
+  },
+  {
+    id: "mati-c",
+    name: "Mati C.",
+    position: "Defensor",
+    skills: ["Timing", "Cruces precisos", "Salida"],
+    weaknesses: ["Juego aéreo", "Velocidad punta"]
+  },
+  { id: "roberto", name: "Roberto", position: "Mediocampista" },
+  {
+    id: "stilman",
+    name: "Stilman",
+    position: "Arquero",
+    skills: ["Voz de mando", "Reflejos", "Penales"],
+    weaknesses: ["Salidas aéreas", "Juego con los pies"]
+  },
+  { id: "ayax", name: "Ayax", position: "Defensor" },
+  { id: "tizi", name: "Tizi", position: "Mediocampista" },
+  { id: "dami", name: "Dami", position: "Delantero" },
+  {
+    id: "chino",
+    name: "Chino",
+    position: "Delantero",
+    skills: ["Goleador nato", "Presión constante", "Liderazgo"],
+    weaknesses: ["Individualismo", "Disciplina táctica"],
+    social: { instagram: "https://instagram.com/chino" }
+  },
+  { id: "nico", name: "Nico", position: "Defensor" },
+  { id: "mati-v", name: "Mati V", position: "Mediocampista" },
   { id: "maxi", name: "Maxi (Amigo Mati)" },
   { id: "luca", name: "Luca (Amigo Chino)" },
   { id: "lautaro", name: "Lautaro (Amigo Chino)" },
@@ -107,12 +181,32 @@ export async function getPlayers(): Promise<Player[]> {
   return players
 }
 
+export async function getNews(): Promise<News[]> {
+  return news
+}
+
 export async function getAllPlayers() {
-  const playerMap: Record<string, { matches: number; goals: number }> = {}
+  const playerMap: Record<string, {
+    name: string;
+    matches: number;
+    goals: number;
+    position?: string;
+    skills?: string[];
+    weaknesses?: string[];
+    social?: { instagram?: string; twitter?: string };
+  }> = {}
 
   // Initialize with the hardcoded players list
   players.forEach(p => {
-    playerMap[p.name] = { matches: 0, goals: 0 }
+    playerMap[p.name] = {
+      name: p.name,
+      matches: 0,
+      goals: 0,
+      position: p.position,
+      skills: p.skills,
+      weaknesses: p.weaknesses,
+      social: p.social
+    }
   })
 
   matches
@@ -121,19 +215,18 @@ export async function getAllPlayers() {
       const allPlayers = [...match.teamA, ...match.teamB]
       allPlayers.forEach((p) => {
         if (!playerMap[p])
-          playerMap[p] = { matches: 0, goals: 0 }
+          playerMap[p] = { name: p, matches: 0, goals: 0 }
         playerMap[p].matches += 1
       })
       match.scorers.forEach((s) => {
         if (!playerMap[s.player])
-          playerMap[s.player] = { matches: 0, goals: 0 }
+          playerMap[s.player] = { name: s.player, matches: 0, goals: 0 }
         playerMap[s.player].goals += s.goals
       })
     })
 
-  return Object.entries(playerMap)
-    .map(([name, data]) => ({
-      name,
+  return Object.values(playerMap)
+    .map((data) => ({
       ...data,
       goalsPerMatch: data.matches > 0 ? +(data.goals / data.matches).toFixed(2) : 0,
     }))
