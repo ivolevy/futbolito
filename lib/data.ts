@@ -47,9 +47,9 @@ export const venues: Venue[] = [
   {
     id: "poli-cramer",
     name: "Poli de Cramer",
-    address: "Cramer, Buenos Aires",
+    address: "Av. Crámer 3249",
     mapsUrl: "https://www.google.com/maps/place/poli+de+cramer/data=!4m2!3m1!1s0x95bcb68498961e29:0x1e71d5172fcb6eea",
-    notes: "Cancha de futbol 5. Buen estado del cesped sintetico.",
+    notes: "Cancha de futbol 8. Buen estado del cesped sintetico.",
     matchesPlayed: 1
   }
 ]

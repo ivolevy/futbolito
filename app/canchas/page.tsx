@@ -128,8 +128,8 @@ export default async function CanchasPage() {
                           </div>
                           <div className="flex items-center gap-2">
                             {match.status === "jugado" ? (
-                              <span className="text-sm font-medium text-primary">
-                                {match.scoreA} - {match.scoreB}
+                              <span className="text-xs font-medium text-primary uppercase tracking-wider">
+                                Jugado
                               </span>
                             ) : (
                               <span className="rounded-full bg-primary/15 px-2 py-0.5 text-xs font-medium text-primary">
