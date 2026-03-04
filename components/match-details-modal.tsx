@@ -1,0 +1,117 @@
+'use client'
+
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog"
+import { CalendarDays, MapPin, Clock, Trophy, Users } from "lucide-react"
+
+interface MatchDetailsModalProps {
+    match: any | null
+    venue: any | null
+    isOpen: boolean
+    onOpenChange: (open: boolean) => void
+}
+
+export function MatchDetailsModal({ match, venue, isOpen, onOpenChange }: MatchDetailsModalProps) {
+    if (!match) return null
+
+    return (
+        <Dialog open={isOpen} onOpenChange={onOpenChange}>
+            <DialogContent className="max-w-md p-0 overflow-hidden border-border/20 bg-background/95 backdrop-blur-3xl outline-none rounded-[2rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)]">
+                {/* Minimal Header */}
+                <div className="relative border-b border-border/10 px-6 py-6 md:px-8 md:py-8">
+                    <div className="flex items-center justify-between">
+                        <div className="space-y-1">
+                            <h2 className="text-2xl md:text-3xl font-black tracking-tight text-foreground uppercase italic">Detalles del Partido</h2>
+                            <div className="flex items-center gap-2">
+                                <span className="h-1.5 w-8 rounded-full bg-primary" />
+                                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">
+                                    {match.status === "jugado" ? "Resultado Final" : "Próximo Encuentro"}
+                                </p>
+                            </div>
+                        </div>
+                        <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-2xl bg-secondary/50 border border-border/10 text-muted-foreground/60 backdrop-blur-md">
+                            <Trophy className="h-5 w-5 md:h-6 md:w-6" />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="p-6 md:p-8 space-y-8">
+                    {/* Event Info */}
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-3 text-sm text-foreground">
+                            <CalendarDays className="h-4 w-4 text-primary/70" />
+                            <span>Fecha: <strong>{new Date(match.date + "T12:00:00").toLocaleDateString('es-AR', { dateStyle: 'long' })}</strong></span>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm text-foreground">
+                            <Clock className="h-4 w-4 text-primary/70" />
+                            <span>Hora: <strong>{match.time} hs</strong></span>
+                        </div>
+                        {venue && (
+                            <div className="flex items-center gap-3 text-sm text-foreground">
+                                <MapPin className="h-4 w-4 text-primary/70" />
+                                <span>Sede: <strong>{venue.name}</strong></span>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Result / Teams */}
+                    {match.status === "jugado" && (
+                        <div className="rounded-2xl bg-primary/10 p-6 border border-primary/20 text-center">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-primary/50 mb-2">Resultado Final</p>
+                            <div className="flex items-center justify-center gap-8">
+                                <div className="text-center">
+                                    <p className="text-xs font-bold text-muted-foreground">EQUIPO A</p>
+                                    <p className="text-4xl font-black text-primary">{match.scoreA}</p>
+                                </div>
+                                <div className="h-8 w-px bg-primary/20" />
+                                <div className="text-center">
+                                    <p className="text-xs font-bold text-muted-foreground">EQUIPO B</p>
+                                    <p className="text-4xl font-black text-primary">{match.scoreB}</p>
+                                </div>
+                            </div>
+                            <p className="mt-4 text-sm font-black text-primary uppercase italic">
+                                {match.scoreA > match.scoreB ? "Victoria Equipo A" : match.scoreB > match.scoreA ? "Victoria Equipo B" : "Empate"}
+                            </p>
+                        </div>
+                    )}
+
+                    {/* Rosters */}
+                    <div className="grid grid-cols-2 gap-8 border-t border-border/10 pt-8">
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 border-b border-border/10 pb-2">
+                                <Users className="h-4 w-4 text-primary/70" />
+                                <p className="text-xs font-black uppercase tracking-tight text-foreground">Equipo A</p>
+                            </div>
+                            <div className="space-y-1.5">
+                                {(match.teamA || []).map((p: string) => (
+                                    <div key={p} className="flex items-center gap-2">
+                                        <div className="h-1 w-1 rounded-full bg-primary/40" />
+                                        <p className="text-xs text-muted-foreground font-medium">{p}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 border-b border-border/10 pb-2">
+                                <Users className="h-4 w-4 text-primary/70" />
+                                <p className="text-xs font-black uppercase tracking-tight text-foreground">Equipo B</p>
+                            </div>
+                            <div className="space-y-1.5">
+                                {(match.teamB || []).map((p: string) => (
+                                    <div key={p} className="flex items-center gap-2">
+                                        <div className="h-1 w-1 rounded-full bg-primary/40" />
+                                        <p className="text-xs text-muted-foreground font-medium">{p}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </DialogContent>
+        </Dialog>
+    )
+}

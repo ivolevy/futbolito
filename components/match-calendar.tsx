@@ -9,17 +9,17 @@ interface MatchCalendarProps {
     venues: any[]
 }
 
+import { MatchDetailsModal } from "@/components/match-details-modal"
+
+interface MatchCalendarProps {
+    matches: any[]
+    venues: any[]
+}
+
 export function MatchCalendar({ matches, venues }: MatchCalendarProps) {
     const [currentDate, setCurrentDate] = useState(new Date(2026, 2, 1)) // Default to March 2026
-    const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null)
-    const detailsRef = useRef<HTMLDivElement>(null)
-
-    // Scroll to details when a match is selected
-    useEffect(() => {
-        if (selectedMatchId && detailsRef.current) {
-            detailsRef.current.scrollIntoView({ behavior: "smooth", block: "start" })
-        }
-    }, [selectedMatchId])
+    const [selectedMatch, setSelectedMatch] = useState<any | null>(null)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     const daysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate()
     const firstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay()
@@ -61,11 +61,11 @@ export function MatchCalendar({ matches, venues }: MatchCalendarProps) {
     const handleDateClick = (dateStr: string) => {
         const match = monthMatches.find(m => m.date === dateStr)
         if (match) {
-            setSelectedMatchId(match.id === selectedMatchId ? null : match.id)
+            setSelectedMatch(match)
+            setIsModalOpen(true)
         }
     }
 
-    const selectedMatch = matches.find(m => m.id === selectedMatchId)
     const selectedVenue = selectedMatch ? venues.find(v => v.id === selectedMatch.venueId) : null
 
     const days = []
