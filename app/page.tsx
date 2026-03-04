@@ -62,24 +62,9 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Quick stats on the right */}
-            <div className="grid w-full grid-cols-2 gap-3 md:w-auto md:grid-cols-1 md:gap-4">
-              <div className="rounded-xl border border-border bg-card/60 px-5 py-4 backdrop-blur-sm">
-                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  Partidos jugados
-                </p>
-                <p className="mt-1 text-3xl font-bold tabular-nums text-foreground">
-                  {playedCount}
-                </p>
-              </div>
-              <div className="rounded-xl border border-border bg-card/60 px-5 py-4 backdrop-blur-sm">
-                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  Jugadores
-                </p>
-                <p className="mt-1 text-3xl font-bold tabular-nums text-foreground">
-                  {allPlayersInMatches.size}
-                </p>
-              </div>
+            {/* Next Match in Hero */}
+            <div className="w-full max-w-md md:w-[400px]">
+              <NextMatchCard />
             </div>
           </div>
         </div>
@@ -87,17 +72,6 @@ export default async function HomePage() {
 
       {/* Content */}
       <div className="mx-auto max-w-6xl px-4 py-8 md:py-12">
-        {/* Next match */}
-        <section className="mb-10">
-          <div className="mb-4 flex items-center gap-2">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Proximo partido
-            </span>
-            <div className="h-px flex-1 bg-border" />
-          </div>
-          <NextMatchCard />
-        </section>
 
         {/* Stats overview */}
         <section className="mb-10">
