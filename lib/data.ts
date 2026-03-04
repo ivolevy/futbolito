@@ -203,19 +203,30 @@ export async function getMatches(): Promise<Match[]> {
 }
 
 export async function getPlayers(): Promise<Player[]> {
-  return players
-}
-
-export async function getNews(): Promise<News[]> {
-  return news
-}
-
-export async function getAnalysis(): Promise<Analysis> {
-  return matchAnalysis
+  const { data, error } = await supabase.from("players").select("*")
+  if (error) {
+    console.error("Error fetching players:", error)
+    return players // Fallback to hardcoded
+  }
+  return (data || []).map(p => ({
+    id: p.id,
+    name: p.name,
+    nickname: p.nickname,
+    number: p.number,
+    photo: p.photo,
+    skills: p.skills,
+    weaknesses: p.weaknesses,
+    social: {
+      instagram: p.instagram,
+      twitter: p.twitter
+    }
+  }))
 }
 
 export async function getAllPlayers() {
+  const dbPlayers = await getPlayers()
   const playerMap: Record<string, {
+    id?: string;
     name: string;
     matches: number;
     goals: number;
@@ -225,9 +236,10 @@ export async function getAllPlayers() {
     social?: { instagram?: string; twitter?: string };
   }> = {}
 
-  // Initialize with the hardcoded players list
-  players.forEach(p => {
+  // Initialize with DB players
+  dbPlayers.forEach(p => {
     playerMap[p.name] = {
+      id: p.id,
       name: p.name,
       matches: 0,
       goals: 0,
@@ -237,19 +249,38 @@ export async function getAllPlayers() {
     }
   })
 
-  matches
+  // Add hardcoded players if they don't exist in DB
+  players.forEach(p => {
+    if (!playerMap[p.name]) {
+      playerMap[p.name] = {
+        name: p.name,
+        matches: 0,
+        goals: 0,
+        skills: p.skills,
+        weaknesses: p.weaknesses,
+        social: p.social
+      }
+    }
+  })
+
+  const { data: dbMatches, error } = await supabase.from("matches").select("*")
+  const allMatches = error ? matches : dbMatches
+
+  allMatches
     .filter((m) => m.status === "jugado")
     .forEach((match) => {
-      const allPlayers = [...match.teamA, ...match.teamB]
+      const allPlayers = [...(match.teamA || match.team_a || []), ...(match.teamB || match.team_b || [])]
       allPlayers.forEach((p) => {
         if (!playerMap[p])
           playerMap[p] = { name: p, matches: 0, goals: 0 }
         playerMap[p].matches += 1
       })
-      match.scorers.forEach((s) => {
-        if (!playerMap[s.player])
-          playerMap[s.player] = { name: s.player, matches: 0, goals: 0 }
-        playerMap[s.player].goals += s.goals
+      const scorers = match.scorers || []
+      scorers.forEach((s: any) => {
+        const playerName = typeof s === 'string' ? s : s.player
+        if (!playerMap[playerName])
+          playerMap[playerName] = { name: playerName, matches: 0, goals: 0 }
+        playerMap[playerName].goals += (s.goals || 1)
       })
     })
 

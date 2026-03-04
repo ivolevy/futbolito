@@ -1,14 +1,8 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState } from "react"
 import { CalendarDays, MapPin, Clock, Trophy, ChevronLeft, ChevronRight, Calendar as CalendarIcon, Users } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-interface MatchCalendarProps {
-    matches: any[]
-    venues: any[]
-}
-
 import { MatchDetailsModal } from "@/components/match-details-modal"
 
 interface MatchCalendarProps {
@@ -31,12 +25,12 @@ export function MatchCalendar({ matches, venues }: MatchCalendarProps) {
 
     const prevMonth = () => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))
-        setSelectedMatchId(null)
+        setSelectedMatch(null)
     }
 
     const nextMonth = () => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))
-        setSelectedMatchId(null)
+        setSelectedMatch(null)
     }
 
     const year = currentDate.getFullYear()

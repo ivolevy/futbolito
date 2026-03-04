@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { X, Save, Loader2 } from "lucide-react"
-import { addMatch, updateMatch } from "@/lib/actions"
+import { addMatch, updateMatch, addVenue } from "@/lib/actions"
 import { toast } from "sonner"
 
 interface MatchModalProps {
@@ -14,6 +14,12 @@ interface MatchModalProps {
 export function MatchModal({ match, venues, onClose }: MatchModalProps) {
     const isEditing = !!match
     const [loading, setLoading] = useState(false)
+    const [isAddingVenue, setIsAddingVenue] = useState(false)
+    const [newVenue, setNewVenue] = useState({
+        name: "",
+        address: "",
+        maps_url: "",
+    })
     const [formData, setFormData] = useState({
         date: match?.date || new Date().toISOString().split("T")[0],
         time: match?.time || "21:00",
@@ -32,25 +38,35 @@ export function MatchModal({ match, venues, onClose }: MatchModalProps) {
         e.preventDefault()
         setLoading(true)
 
-        const payload = {
-            ...formData,
-            team_a: teamAText.split(",").map((n: string) => n.trim()).filter(Boolean),
-            team_b: teamBText.split(",").map((n: string) => n.trim()).filter(Boolean),
-            score_a: formData.score_a === "" ? null : Number(formData.score_a),
-            score_b: formData.score_b === "" ? null : Number(formData.score_b),
-        }
-
         try {
+            let finalVenueId = formData.venue_id
+
+            if (isAddingVenue) {
+                const venueData = await addVenue(newVenue)
+                if (venueData && venueData[0]) {
+                    finalVenueId = venueData[0].id
+                }
+            }
+
+            const payload = {
+                ...formData,
+                venue_id: finalVenueId,
+                team_a: teamAText.split(",").map((n: string) => n.trim()).filter(Boolean),
+                team_b: teamBText.split(",").map((n: string) => n.trim()).filter(Boolean),
+                score_a: formData.score_a === "" ? null : Number(formData.score_a),
+                score_b: formData.score_b === "" ? null : Number(formData.score_b),
+            }
+
             if (isEditing) {
                 await updateMatch(match.id, payload)
-                toast.success("Match updated successfully")
+                toast.success("Partido actualizado")
             } else {
                 await addMatch(payload)
-                toast.success("Match created successfully")
+                toast.success("Partido creado")
             }
             onClose()
         } catch (error) {
-            toast.error("Error saving match")
+            toast.error("Error al guardar")
             console.error(error)
         } finally {
             setLoading(false)
@@ -96,16 +112,59 @@ export function MatchModal({ match, venues, onClose }: MatchModalProps) {
                             <div>
                                 <label className="mb-1.5 block text-sm font-medium">Cancha</label>
                                 <select
-                                    required
-                                    value={formData.venue_id}
-                                    onChange={e => setFormData({ ...formData, venue_id: e.target.value })}
+                                    required={!isAddingVenue}
+                                    value={isAddingVenue ? "new" : formData.venue_id}
+                                    onChange={e => {
+                                        if (e.target.value === "new") {
+                                            setIsAddingVenue(true)
+                                        } else {
+                                            setIsAddingVenue(false)
+                                            setFormData({ ...formData, venue_id: e.target.value })
+                                        }
+                                    }}
                                     className="w-full rounded-lg border border-input bg-secondary/30 px-3 py-2 text-sm"
                                 >
                                     {venues.map(v => (
                                         <option key={v.id} value={v.id}>{v.name}</option>
                                     ))}
+                                    <option value="new">+ Nueva Cancha...</option>
                                 </select>
                             </div>
+
+                            {isAddingVenue && (
+                                <div className="space-y-3 rounded-lg border border-primary/20 bg-primary/5 p-4 animate-in fade-in slide-in-from-top-2">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Datos de la Nueva Cancha</p>
+                                    <input
+                                        type="text"
+                                        placeholder="Nombre de la cancha"
+                                        required
+                                        value={newVenue.name}
+                                        onChange={e => setNewVenue({ ...newVenue, name: e.target.value })}
+                                        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Dirección"
+                                        value={newVenue.address}
+                                        onChange={e => setNewVenue({ ...newVenue, address: e.target.value })}
+                                        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Google Maps URL"
+                                        value={newVenue.maps_url}
+                                        onChange={e => setNewVenue({ ...newVenue, maps_url: e.target.value })}
+                                        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsAddingVenue(false)}
+                                        className="text-xs text-muted-foreground hover:text-foreground underline"
+                                    >
+                                        Cancelar nueva cancha
+                                    </button>
+                                </div>
+                            )}
                         </div>
 
                         <div className="space-y-4">
