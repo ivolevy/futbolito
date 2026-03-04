@@ -24,10 +24,14 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-lg">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-lg font-bold tracking-tight text-foreground">
-            Futbolito <span className="text-primary">26</span>
-          </span>
+        <Link href="/" className="flex items-center">
+          <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg bg-black border border-white/5">
+            <img
+              src="/logo.png"
+              alt="Futbolito Logo"
+              className="h-full w-full object-cover"
+            />
+          </div>
         </Link>
 
         {/* Desktop nav */}
