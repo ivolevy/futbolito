@@ -83,30 +83,28 @@ export const matchAnalysis: Analysis = {
   date: "2026-03-04"
 }
 
+// Hardcoded News
 export const news: News[] = [
   {
-    id: "news-3",
-    title: "Comienza la Temporada 2026",
-    subtitle: "El Poli de Cramer abre sus puertas para un nuevo torneo lleno de emociones.",
-    content: "Con equipos renovados y la misma pasión de siempre, arranca la temporada 2026 del Futbolito. Las expectativas son altísimas y los jugadores ya demostraron en la primera fecha que dejarán todo en la cancha.",
-    date: "2026-03-01",
-    image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1000&auto=format&fit=crop"
+    id: "news-1",
+    title: "La vuelta de Stilman, está para atajar en Boca?",
+    subtitle: "El guardameta volvió a las canchas con una actuación que dejó a todos boquiabiertos.",
+    content: "Tras una larga ausencia, Stilman regresó bajo los tres palos en el Poli de Cramer. Con reflejos intactos y una voz de mando que se extrañaba, lideró a su defensa con solvencia. ¿Es exagerado pensar en el Xeneize? Para los presentes en el Futbolito 2026, la respuesta es clara: calidad le sobra.",
+    date: "2026-03-04"
   },
   {
     id: "news-2",
-    title: "Nuevas reglas de convivencia",
-    subtitle: "Actualización importante del reglamento interno para el tercer tiempo.",
-    content: "Para mantener el espíritu de camaradería que nos caracteriza, la comisión directiva ha actualizado el reglamento del tercer tiempo. Se recomienda llevar hidratación extra y evitar hablar de política antes del primer brindis.",
-    date: "2026-02-28",
-    image: "https://images.unsplash.com/photo-1543326161-9c17f2bc2ca3?q=80&w=1000&auto=format&fit=crop"
+    title: "El chino, mas en guerra que nunca",
+    subtitle: "Goleador, líder y guerrero. Una radiografía de la mentalidad ganadora que domina el torneo.",
+    content: "No solo fueron los 5 goles en el último partido. Fue la forma en que disputó cada pelota. El Chino ha dejado claro que este 2026 no viene a pasear. 'La gloria es para los que la luchan', declaró tras el pitazo final. Un mensaje directo para sus rivales.",
+    date: "2026-03-04"
   },
   {
-    id: "news-1",
-    title: "Mercado de Pases Agitado",
-    subtitle: "Los capitanes mueven sus fichas a horas del cierre del libro de pases.",
-    content: "Rumores de último momento indican que varios jugadores franquicia estarían negociando cambios de equipo. La confirmación oficial llegará en las próximas horas, pero el mercado está más activo que nunca.",
-    date: "2026-02-25",
-    image: "https://images.unsplash.com/photo-1551280857-2b9bbe5204ec?q=80&w=1000&auto=format&fit=crop"
+    id: "news-3",
+    title: "La dupla 'Obel' no hace pie",
+    subtitle: "Zanon y Greco, una defensa con menos movilidad que una calesita sin volante.",
+    content: "Preocupación en el búnker defensivo. La dupla conformada por Zanon y Greco, bautizada irónicamente como 'Obel', parece tener el paso bloqueado. En el último encuentro, la falta de reacción y la nula movilidad permitieron que los delanteros rivales pasaran como 'canilla abierta'. Se espera que para la próxima fecha el ajuste táctico sea drástico, o que al menos le pongan un poco de WD-40 a las rodillas.",
+    date: "2026-03-04"
   }
 ]
 
