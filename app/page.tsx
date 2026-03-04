@@ -1,9 +1,11 @@
 import { NextMatchCard } from "@/components/next-match-card"
 import { NewsSection } from "@/components/news-section"
-import { getNews } from "@/lib/data"
+import { getNews, getAnalysis } from "@/lib/data"
+import { FileText, Calendar } from "lucide-react"
 
 export default async function HomePage() {
   const news = await getNews()
+  const analysis = await getAnalysis()
 
   return (
     <div className="min-h-screen">
@@ -44,8 +46,34 @@ export default async function HomePage() {
       </section>
 
       {/* Content */}
-      <div className="mx-auto max-w-6xl px-4 py-12">
+      <div className="mx-auto max-w-6xl px-4 py-12 space-y-16">
         <NewsSection news={news} />
+
+        {/* Analysis Section */}
+        <section>
+          <div className="mb-8 flex items-center justify-between border-b border-border pb-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <FileText className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight text-foreground">El Análisis de la Fecha</h2>
+                <p className="text-sm text-muted-foreground">La mirada experta sobre lo que dejó la jornada.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-border bg-card p-8 shadow-sm transition-all hover:border-primary/20">
+            <div className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
+              <Calendar className="h-3.5 w-3.5" />
+              {analysis.date}
+            </div>
+            <h3 className="mb-4 text-3xl font-bold tracking-tight text-foreground">{analysis.title}</h3>
+            <div className="prose prose-sm prose-invert max-w-none text-muted-foreground leading-relaxed">
+              <p>{analysis.content}</p>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   )

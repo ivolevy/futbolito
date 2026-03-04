@@ -47,7 +47,6 @@ export interface Player {
   id: string
   name: string
   nickname?: string
-  position?: string
   number?: number
   photo?: string
   skills?: string[]
@@ -88,59 +87,83 @@ export const news: News[] = [
   },
   {
     id: "news-3",
-    title: "Sobran ganas, falta nivel",
-    subtitle: "El análisis de una primera fecha intensa pero con detalles por pulir físicamente.",
-    content: "Es natural. Los primeros partidos de la temporada siempre cuestan. Se vio mucha entrega, pulmones al límite y ganas de ganar, pero la precisión y el ritmo de juego aún están en proceso. La buena noticia: a medida que pasen las semanas y los partidos, el nivel futbolístico alcanzará su pico máximo. A aguantar los trapos.",
+    title: "La dupla 'Obel' no hace pie",
+    subtitle: "Zanon y Greco, una defensa con menos movilidad que una calesita sin volante.",
+    content: "Preocupación en el búnker defensivo. La dupla conformada por Zanon y Greco, bautizada irónicamente como 'Obel', parece tener el paso bloqueado. En el último encuentro, la falta de reacción y la nula movilidad permitieron que los delanteros rivales pasaran como 'canilla abierta'. Se espera que para la próxima fecha el ajuste táctico sea drástico, o que al menos le pongan un poco de WD-40 a las rodillas.",
     date: "2026-03-04"
   }
 ]
 
-// Hardcoded Players (Updated with friends and siblings)
+export interface Analysis {
+  id: string
+  title: string
+  content: string
+  date: string
+}
+
+export const matchAnalysis: Analysis = {
+  id: "analysis-1",
+  title: "Análisis de la Fecha 1: Entre el asado y el sudor",
+  content: "La primera fecha nos dejó mucho para cortar. Más allá de los resultados, lo que primó fue la camaradería y las ganas de volver a rodar. El Chino se erige como la figura indiscutida con su póker de goles, pero la gran sorpresa fue el despliegue físico de algunos que venían de un retiro casi definitivo. Las canchas del Poli de Cramer respondieron bien, aunque se notó la falta de 'fina' en los pases finales. Para la próxima semana, el desafío es claro: menos panza y más precisión.",
+  date: "2026-03-04"
+}
+
+// Hardcoded Players (Updated with specific skills)
 export const players: Player[] = [
   {
     id: "ivo",
     name: "Ivo",
-    position: "Mediocampista",
-    skills: ["Visión de juego", "Pase largo", "Estratega"],
-    weaknesses: ["Retroceso lento", "Poca marca"],
+    skills: ["Velocidad", "Gambeta", "Liderazgo"],
     social: { instagram: "https://instagram.com/ivo" }
   },
   {
     id: "panchi",
     name: "Panchi",
-    position: "Delantero",
-    skills: ["Potencia", "Definición", "Aguante"],
-    weaknesses: ["Poca movilidad", "Temperamento"],
+    skills: ["Defensa", "Pase filtrado"],
     social: { instagram: "https://instagram.com/panchi" }
   },
   {
     id: "mati-c",
     name: "Mati C.",
-    position: "Defensor",
-    skills: ["Timing", "Cruces precisos", "Salida"],
-    weaknesses: ["Juego aéreo", "Velocidad punta"]
+    skills: ["Visión", "Pase"],
   },
-  { id: "roberto", name: "Roberto", position: "Mediocampista" },
+  {
+    id: "roberto",
+    name: "Roberto",
+    skills: ["Striker", "Definición"]
+  },
   {
     id: "stilman",
     name: "Stilman",
-    position: "Arquero",
-    skills: ["Voz de mando", "Reflejos", "Penales"],
-    weaknesses: ["Salidas aéreas", "Juego con los pies"]
+    skills: ["Acrobacia", "Gato"]
   },
-  { id: "ayax", name: "Ayax", position: "Defensor" },
-  { id: "tizi", name: "Tizi", position: "Mediocampista" },
-  { id: "dami", name: "Dami", position: "Delantero" },
+  {
+    id: "ayax",
+    name: "Ayax",
+    skills: ["Pase", "Ida y vuelta"]
+  },
+  {
+    id: "tizi",
+    name: "Tizi",
+    skills: ["Despeje"]
+  },
+  {
+    id: "dami",
+    name: "Dami",
+    skills: ["Pase", "Visión de juego"]
+  },
   {
     id: "chino",
     name: "Chino",
-    position: "Delantero",
-    skills: ["Goleador nato", "Presión constante", "Liderazgo"],
-    weaknesses: ["Individualismo", "Disciplina táctica"],
+    skills: ["Gambeta", "Definición"],
     social: { instagram: "https://instagram.com/chino" }
   },
-  { id: "nico", name: "Nico", position: "Defensor" },
-  { id: "mati-v", name: "Mati V", position: "Mediocampista" },
+  {
+    id: "nico",
+    name: "Nico",
+    skills: ["Altura", "Control"]
+  },
+  { id: "mati-v", name: "Mati V" },
   { id: "maxi", name: "Maxi (Amigo Mati)" },
   { id: "luca", name: "Luca (Amigo Chino)" },
   { id: "lautaro", name: "Lautaro (Amigo Chino)" },
@@ -185,6 +208,10 @@ export async function getNews(): Promise<News[]> {
   return news
 }
 
+export async function getAnalysis(): Promise<Analysis> {
+  return matchAnalysis
+}
+
 export async function getAllPlayers() {
   const playerMap: Record<string, {
     name: string;
@@ -202,7 +229,6 @@ export async function getAllPlayers() {
       name: p.name,
       matches: 0,
       goals: 0,
-      position: p.position,
       skills: p.skills,
       weaknesses: p.weaknesses,
       social: p.social

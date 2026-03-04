@@ -15,7 +15,6 @@ interface PlayerDetailsModalProps {
         matches: number
         goals: number
         goalsPerMatch: number
-        position?: string
         skills?: string[]
         weaknesses?: string[]
         social?: {
@@ -32,98 +31,89 @@ export function PlayerDetailsModal({ player, isOpen, onOpenChange }: PlayerDetai
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-xl p-0 overflow-hidden outline-none">
-                <div className="relative h-32 bg-primary/10">
-                    <div className="absolute -bottom-12 left-6">
-                        <div className="flex h-24 w-24 items-center justify-center rounded-2xl border-4 border-background bg-secondary text-2xl font-bold text-secondary-foreground shadow-sm">
-                            {player.name
-                                .split(" ")
-                                .map((n) => n[0])
-                                .join("")
-                                .toUpperCase()
-                                .slice(0, 2)}
+            <DialogContent className="max-w-xl p-0 overflow-hidden border-border/40 bg-background/95 backdrop-blur-2xl outline-none sm:rounded-[2.5rem] shadow-2xl">
+                <div className="relative h-44 bg-gradient-to-br from-primary/20 via-primary/5 to-transparent">
+                    {/* Decorative patterns */}
+                    <div className="absolute inset-0 opacity-10"
+                        style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)', backgroundSize: '20px 20px' }} />
+
+                    <div className="absolute -bottom-16 left-8">
+                        <div className="relative group">
+                            <div className="absolute inset-0 animate-pulse rounded-[2rem] bg-primary/20 blur-2xl transition-opacity" />
+                            <div className="relative flex h-32 w-32 items-center justify-center rounded-[2rem] border-8 border-background bg-gradient-to-br from-card to-secondary/30 text-4xl font-black text-primary shadow-xl ring-1 ring-primary/10">
+                                {player.name
+                                    .split(" ")
+                                    .map((n) => n[0])
+                                    .join("")
+                                    .toUpperCase()
+                                    .slice(0, 2)}
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="px-6 pb-8 pt-16">
+                <div className="px-8 pb-10 pt-20">
                     <div className="flex items-start justify-between">
-                        <div>
-                            <h2 className="text-2xl font-bold text-foreground">{player.name}</h2>
-                            <p className="text-sm font-medium text-primary">
-                                {player.position || "Jugador"}
-                            </p>
+                        <div className="space-y-1">
+                            <h2 className="text-4xl font-black tracking-tighter text-foreground drop-shadow-sm">{player.name}</h2>
+                            <div className="flex items-center gap-2">
+                                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                                <p className="text-xs font-bold uppercase tracking-widest text-primary/70">
+                                    Ficha Técnica 2026
+                                </p>
+                            </div>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-3">
                             {player.social?.instagram && (
-                                <a href={player.social.instagram} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors text-muted-foreground hover:text-primary">
-                                    <Instagram className="h-4 w-4" />
+                                <a href={player.social.instagram} target="_blank" rel="noopener noreferrer" className="flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary/50 backdrop-blur-md border border-primary/5 text-muted-foreground hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
+                                    <Instagram className="h-5 w-5" />
                                 </a>
                             )}
                             {player.social?.twitter && (
-                                <a href={player.social.twitter} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors text-muted-foreground hover:text-primary">
-                                    <Twitter className="h-4 w-4" />
+                                <a href={player.social.twitter} target="_blank" rel="noopener noreferrer" className="flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary/50 backdrop-blur-md border border-primary/5 text-muted-foreground hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
+                                    <Twitter className="h-5 w-5" />
                                 </a>
                             )}
                         </div>
                     </div>
 
                     {/* Stats Grid */}
-                    <div className="mt-8 grid grid-cols-3 gap-4">
+                    <div className="mt-10 grid grid-cols-3 gap-5">
                         <StatBox
-                            icon={<Target className="h-4 w-4 text-primary" />}
+                            icon={<Target className="h-5 w-5 text-primary" />}
                             label="Goles"
                             value={player.goals}
                         />
                         <StatBox
-                            icon={<TrendingUp className="h-4 w-4 text-primary" />}
+                            icon={<TrendingUp className="h-5 w-5 text-primary" />}
                             label="Promedio"
                             value={player.goalsPerMatch.toFixed(2)}
                         />
                         <StatBox
-                            icon={<ShieldCheck className="h-4 w-4 text-primary" />}
+                            icon={<ShieldCheck className="h-5 w-5 text-primary" />}
                             label="Partidos"
                             value={player.matches}
                         />
                     </div>
 
-                    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Habilidades */}
-                        <div className="space-y-3">
-                            <h3 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
-                                <CheckCircle2 className="h-4 w-4 text-green-500" />
-                                Habilidades
+                    {/* Habilidades (Optimized Design) */}
+                    <div className="mt-10">
+                        <div className="mb-5 flex items-center justify-between">
+                            <h3 className="flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.2em] text-foreground/40">
+                                <CheckCircle2 className="h-4 w-4 text-primary" />
+                                Habilidades Destacadas
                             </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {player.skills && player.skills.length > 0 ? (
-                                    player.skills.map((skill) => (
-                                        <Badge key={skill} variant="secondary" className="rounded-md px-2 py-1 bg-green-500/10 text-green-600 border-none">
-                                            {skill}
-                                        </Badge>
-                                    ))
-                                ) : (
-                                    <p className="text-xs text-muted-foreground italic">Por definir...</p>
-                                )}
-                            </div>
                         </div>
-
-                        {/* Debilidades */}
-                        <div className="space-y-3">
-                            <h3 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
-                                <AlertCircle className="h-4 w-4 text-amber-500" />
-                                Debilidades
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {player.weaknesses && player.weaknesses.length > 0 ? (
-                                    player.weaknesses.map((weakness) => (
-                                        <Badge key={weakness} variant="secondary" className="rounded-md px-2 py-1 bg-amber-500/10 text-amber-600 border-none">
-                                            {weakness}
-                                        </Badge>
-                                    ))
-                                ) : (
-                                    <p className="text-xs text-muted-foreground italic">Por definir...</p>
-                                )}
-                            </div>
+                        <div className="flex flex-wrap gap-2.5">
+                            {player.skills && player.skills.length > 0 ? (
+                                player.skills.map((skill) => (
+                                    <Badge key={skill} variant="secondary" className="rounded-xl px-4 py-2.5 bg-primary/5 text-primary border border-primary/5 font-bold text-xs hover:bg-primary/10 transition-colors">
+                                        {skill}
+                                    </Badge>
+                                ))
+                            ) : (
+                                <p className="text-xs text-muted-foreground italic bg-secondary/30 rounded-xl px-4 py-3 w-full">Pendiente de evaluación técnica...</p>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -134,10 +124,12 @@ export function PlayerDetailsModal({ player, isOpen, onOpenChange }: PlayerDetai
 
 function StatBox({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | number }) {
     return (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card p-4">
-            {icon}
-            <span className="mt-2 text-lg font-bold text-foreground">{value}</span>
-            <span className="text-[10px] uppercase font-semibold text-muted-foreground">{label}</span>
+        <div className="flex flex-col items-center justify-center rounded-[1.5rem] border border-primary/5 bg-secondary/30 p-5 transition-all duration-300 hover:bg-secondary/50">
+            <div className="mb-2.5 rounded-xl bg-background/50 p-2.5 shadow-sm ring-1 ring-primary/5">
+                {icon}
+            </div>
+            <span className="text-xl font-black text-foreground tabular-nums">{value}</span>
+            <span className="text-[9px] uppercase font-black tracking-widest text-muted-foreground/60">{label}</span>
         </div>
     )
 }
