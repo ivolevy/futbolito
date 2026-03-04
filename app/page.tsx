@@ -44,22 +44,6 @@ export default async function HomePage() {
               <p className="text-lg text-muted-foreground md:text-xl">
                 Unidos por Stilman.
               </p>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Link
-                  href="/partidos"
-                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-                >
-                  Ver partidos
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/jugadores"
-                  className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
-                >
-                  <Users className="h-4 w-4" />
-                  Jugadores
-                </Link>
-              </div>
             </div>
 
             {/* Next Match in Hero */}
@@ -74,20 +58,6 @@ export default async function HomePage() {
       <div className="mx-auto max-w-6xl px-4 py-8 md:py-12">
 
 
-        {/* Widgets row */}
-        <section className="mb-10">
-          <div className="mb-4 flex items-center gap-2">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Destacados
-            </span>
-            <div className="h-px flex-1 bg-border" />
-          </div>
-          <div className="grid gap-6 md:grid-cols-2">
-            <TopScorersWidget />
-            <RecentMatchesWidget />
-          </div>
-        </section>
 
         {/* Quick links */}
         <section className="grid gap-3 md:grid-cols-3">
