@@ -33,10 +33,10 @@ export default async function EstadisticasPage() {
           <StatTable
             title="Goleadores"
             icon={<Target className="h-4 w-4 text-primary" />}
-            columns={["Jugador", "Goles", "Prom."]}
+            columns={["Jugador", "Goles", "Part."]}
             rows={scorers.map((s, i) => ({
               rank: i + 1,
-              cells: [s.name, String(s.goals), String(s.average)],
+              cells: [s.name, String(s.goals), String(s.matches)],
             }))}
           />
 

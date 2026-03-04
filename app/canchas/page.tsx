@@ -102,10 +102,6 @@ export default async function CanchasPage() {
                     <p className="text-lg font-bold text-foreground">{scheduledHere.length}</p>
                     <p className="text-xs text-muted-foreground">Programados</p>
                   </div>
-                  <div className="rounded-lg bg-secondary/30 px-4 py-2 text-center">
-                    <p className="text-lg font-bold text-foreground">{venueMatches.length}</p>
-                    <p className="text-xs text-muted-foreground">Total</p>
-                  </div>
                 </div>
 
                 {/* Match list for this venue */}
