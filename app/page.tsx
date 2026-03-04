@@ -77,11 +77,17 @@ export default async function HomePage() {
                 {analysis.title}
               </h3>
 
-              <div className="relative">
+              <div className="relative space-y-6">
                 <div className="absolute -left-4 top-0 h-full w-1 bg-gradient-to-b from-primary/50 to-transparent" />
-                <p className="text-xl leading-relaxed text-muted-foreground italic first-letter:text-5xl first-letter:font-black first-letter:text-primary first-letter:mr-3 first-letter:float-left">
-                  {analysis.content}
-                </p>
+                {analysis.content.split('\n\n').map((paragraph, idx) => (
+                  <p
+                    key={idx}
+                    className={`text-xl leading-relaxed text-muted-foreground italic ${idx === 0 ? "first-letter:text-5xl first-letter:font-black first-letter:text-primary first-letter:mr-3 first-letter:float-left" : ""
+                      }`}
+                  >
+                    {paragraph}
+                  </p>
+                ))}
               </div>
             </article>
 
