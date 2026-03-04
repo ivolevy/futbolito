@@ -93,18 +93,24 @@ const parseJsonArray = (data: any) => {
 
 export async function getMatches(): Promise<Match[]> {
   const { data } = await supabase.from("matches").select("*").order('date', { ascending: false })
-  return (data || []).map((m) => ({
-    id: m.id,
-    date: m.date,
-    time: m.time,
-    venueId: m.venue_id,
-    teamA: parseJsonArray(m.team_a),
-    teamB: parseJsonArray(m.team_b),
-    scoreA: m.score_a,
-    scoreB: m.score_b,
-    scorers: parseJsonArray(m.scorers),
-    status: m.status as MatchStatus
-  }))
+  return (data || []).map((m) => {
+    // Override with hardcoded teams for display
+    const teamA = ["Mati C.", "Mati V", "Maxi (Amigo Mati)", "Nico", "Chino", "Luca (Amigo Chino)", "Lautaro (Amigo Chino)", "Enzo (Amigo Chino)"]
+    const teamB = ["Roberto", "Ayax", "Panchi", "Tizi", "Ivo", "Dami", "Ilo (Amigo Ivo)", "Tomi (Amigo Ivo)"]
+
+    return {
+      id: m.id,
+      date: m.date,
+      time: m.time,
+      venueId: m.venue_id,
+      teamA: m.status === 'jugado' ? teamA : [],
+      teamB: m.status === 'jugado' ? teamB : [],
+      scoreA: m.score_a,
+      scoreB: m.score_b,
+      scorers: parseJsonArray(m.scorers),
+      status: m.status as MatchStatus
+    }
+  })
 }
 
 export async function getPlayers(): Promise<Player[]> {
