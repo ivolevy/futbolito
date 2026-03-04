@@ -79,6 +79,18 @@ export async function getVenues(): Promise<Venue[]> {
   }))
 }
 
+const parseJsonArray = (data: any) => {
+  if (typeof data === 'string') {
+    try {
+      const parsed = JSON.parse(data)
+      return Array.isArray(parsed) ? parsed : []
+    } catch {
+      return []
+    }
+  }
+  return Array.isArray(data) ? data : []
+}
+
 export async function getMatches(): Promise<Match[]> {
   const { data } = await supabase.from("matches").select("*").order('date', { ascending: false })
   return (data || []).map((m) => ({
@@ -86,11 +98,11 @@ export async function getMatches(): Promise<Match[]> {
     date: m.date,
     time: m.time,
     venueId: m.venue_id,
-    teamA: m.team_a || [],
-    teamB: m.team_b || [],
+    teamA: parseJsonArray(m.team_a),
+    teamB: parseJsonArray(m.team_b),
     scoreA: m.score_a,
     scoreB: m.score_b,
-    scorers: m.scorers || [],
+    scorers: parseJsonArray(m.scorers),
     status: m.status as MatchStatus
   }))
 }

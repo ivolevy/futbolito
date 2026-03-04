@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Navbar } from "@/components/navbar"
+import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
@@ -29,21 +30,23 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es">
-      <body className={`${inter.variable} font-sans antialiased`}>
-        <Navbar />
-        <main>{children}</main>
-        <footer className="border-t border-border py-8">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4">
-            <p className="text-xs text-muted-foreground">
-              Futbolito 2026 &mdash; Temporada en curso
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Unidos por Stilman
-            </p>
-          </div>
-        </footer>
-        <Analytics />
+    <html lang="es" suppressHydrationWarning>
+      <body className={`${inter.variable} font-sans antialiased bg-background text-foreground`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <Navbar />
+          <main>{children}</main>
+          <footer className="border-t border-border py-8">
+            <div className="mx-auto flex max-w-6xl items-center justify-between px-4">
+              <p className="text-xs text-muted-foreground">
+                Futbolito 2026 &mdash; Temporada en curso
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Unidos por Stilman
+              </p>
+            </div>
+          </footer>
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

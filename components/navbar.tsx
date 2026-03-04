@@ -16,6 +16,7 @@ const navItems = [
 ]
 
 import { useAdmin } from "@/hooks/use-admin"
+import { ThemeToggle } from "./theme-toggle"
 
 export function Navbar() {
   const pathname = usePathname()
@@ -69,16 +70,22 @@ export function Navbar() {
               Admin
             </Link>
           )}
+          <div className="ml-4 pl-4 border-l border-border h-6 flex items-center">
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Mobile hamburger */}
-        <button
-          className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary md:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? "Cerrar menu" : "Abrir menu"}
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary md:hidden"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Cerrar menu" : "Abrir menu"}
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}

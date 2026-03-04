@@ -40,7 +40,7 @@ export default async function VideosPage() {
                                     {new Date(match.date + "T12:00:00").toLocaleDateString('es-AR', { dateStyle: 'long' })}
                                 </p>
                                 <h3 className="text-xl font-bold text-foreground">
-                                    {match.teamA.length} vs {match.teamB.length} Jugadores
+                                    Fútbol {Math.max(match.teamA.length, match.teamB.length)}
                                 </h3>
                             </div>
                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
