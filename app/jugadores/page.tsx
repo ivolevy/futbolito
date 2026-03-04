@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { getAllPlayers, getMatches } from "@/lib/data"
-import { Users, Trophy, Target, ShieldCheck, UserSearch } from "lucide-react"
+import { Users, Trophy, Target, ShieldCheck, UserSearch, Eye } from "lucide-react"
 import { PlayerDetailsModal } from "@/components/player-details-modal"
 import { Button } from "@/components/ui/button"
 
@@ -49,7 +49,7 @@ export default function JugadoresPage() {
   const hasPlayers = fullList.length > 0
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 md:py-12">
+    <div className="mx-auto max-w-4xl px-4 py-8 md:py-12">
       <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between border-b border-border pb-8">
         <div>
           <h1 className="text-4xl font-bold tracking-tight text-foreground">Jugadores</h1>
@@ -78,14 +78,24 @@ export default function JugadoresPage() {
           </p>
         </div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {fullList.map((player, index) => (
-            <PlayerCard
+        <div className="divide-y divide-border rounded-xl border border-border bg-card overflow-hidden">
+          {fullList.map((player) => (
+            <div
               key={player.name}
-              player={player}
-              rank={index + 1}
-              onClick={() => handleShowDetails(player)}
-            />
+              className="group flex items-center justify-between p-4 px-6 hover:bg-muted/50 transition-colors"
+            >
+              <h3 className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
+                {player.name}
+              </h3>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-10 w-10 rounded-full hover:bg-primary/10 hover:text-primary transition-all"
+                onClick={() => handleShowDetails(player)}
+              >
+                <Eye className="h-5 w-5" />
+              </Button>
+            </div>
           ))}
         </div>
       )}
@@ -96,45 +106,5 @@ export default function JugadoresPage() {
         onOpenChange={setIsModalOpen}
       />
     </div>
-  )
-}
-
-function PlayerCard({
-  player,
-  rank,
-  onClick
-}: {
-  player: {
-    name: string
-    matches: number
-    goals: number
-    goalsPerMatch: number
-  }
-  rank: number
-  onClick: () => void
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="group relative flex items-center gap-4 rounded-xl border border-border bg-card p-5 text-left transition-all hover:border-primary/30 hover:shadow-md"
-    >
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-base font-bold text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-        {player.name
-          .split(" ")
-          .map((n) => n[0])
-          .join("")
-          .toUpperCase()
-          .slice(0, 2)}
-      </div>
-      <div className="flex-1">
-        <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">{player.name}</h3>
-        <p className="text-xs text-muted-foreground">
-          {player.matches} {player.matches === 1 ? "partido" : "partidos"} &bull; {player.goals} goles
-        </p>
-      </div>
-      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary/50 text-[10px] font-black text-muted-foreground group-hover:text-primary transition-colors">
-        #{rank}
-      </div>
-    </button>
   )
 }
