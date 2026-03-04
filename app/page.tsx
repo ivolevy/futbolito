@@ -50,14 +50,6 @@ export default async function HomePage() {
             {/* News Section */}
             <NewsSection news={news} />
 
-            {/* Results + Next Match */}
-            <div className="space-y-6">
-              <RecentMatchesWidget />
-              <div className="pt-2">
-                <NextMatchCard />
-              </div>
-            </div>
-
             {/* Quick links */}
             <section className="grid gap-4 sm:grid-cols-3">
               <Link

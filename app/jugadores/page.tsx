@@ -127,7 +127,7 @@ function PlayerCard({
   return (
     <div className="group overflow-hidden rounded-xl border border-border bg-card transition-all hover:border-primary/30 hover:shadow-sm">
       {/* Player header */}
-      <div className="flex items-center gap-4 border-b border-border bg-secondary/10 px-5 py-4">
+      <div className="flex items-center gap-4 bg-secondary/10 px-5 py-4">
         <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary transition-colors group-hover:bg-primary/20">
           {player.name
             .split(" ")
@@ -145,15 +145,8 @@ function PlayerCard({
         <span className="text-xs font-bold text-primary/40">#{rank}</span>
       </div>
 
-      {/* Stats row */}
-      <div className="flex divide-x divide-border">
-        <StatCell label="Goles" value={player.goals} />
-        <StatCell label="Partidos" value={player.matches} />
-        <StatCell label="Prom" value={player.goalsPerMatch.toFixed(1)} />
-      </div>
-
       {/* Action */}
-      <div className="p-3 bg-secondary/5 border-t border-border">
+      <div className="p-4 bg-secondary/5">
         <Button
           variant="outline"
           size="sm"
@@ -164,17 +157,6 @@ function PlayerCard({
           Ver ficha técnica
         </Button>
       </div>
-    </div>
-  )
-}
-
-function StatCell({ label, value }: { label: string; value: string | number }) {
-  return (
-    <div className="flex flex-1 flex-col items-center py-2.5">
-      <span className="text-sm font-bold text-foreground tabular-nums">{value}</span>
-      <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
-        {label}
-      </span>
     </div>
   )
 }
