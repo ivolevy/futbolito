@@ -33,7 +33,7 @@ export default async function PartidosPage() {
         {/* Top Section: Calendar and Recent Results */}
         <div className="grid gap-8 lg:grid-cols-12 items-start">
           <div className="lg:col-span-8">
-            <MatchCalendar matches={matches} />
+            <MatchCalendar matches={matches} venues={venues} />
           </div>
           <div className="lg:col-span-4 h-full">
             <RecentMatchesWidget />
