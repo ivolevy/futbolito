@@ -53,8 +53,10 @@ export function MatchCalendar({ matches, venues }: MatchCalendarProps) {
         .map(m => m.date)
 
     const handleDateClick = (dateStr: string) => {
-        const match = monthMatches.find(m => m.date === dateStr)
-        if (match) {
+        const matchesOnDate = monthMatches.filter(m => m.date === dateStr)
+        if (matchesOnDate.length > 0) {
+            // Prefer the played match if multiple exist on the same day
+            const match = matchesOnDate.find(m => m.status === "jugado") || matchesOnDate[0]
             setSelectedMatch(match)
             setIsModalOpen(true)
         }
