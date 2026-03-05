@@ -94,17 +94,25 @@ const parseJsonArray = (data: any) => {
 export async function getMatches(): Promise<Match[]> {
   const { data } = await supabase.from("matches").select("*").order('date', { ascending: false })
   return (data || []).map((m) => {
-    // Override with hardcoded teams for display
-    const teamA = ["Mati C.", "Mati V", "Maxi (Amigo Mati)", "Nico", "Chino", "Luca (Amigo Chino)", "Lautaro (Amigo Chino)", "Enzo (Amigo Chino)"]
-    const teamB = ["Roberto", "Ayax", "Panchi", "Tizi", "Ivo", "Dami", "Ilo (Amigo Ivo)", "Tomi (Amigo Ivo)"]
+    // Attempt parsing DB arrays first
+    const dbTeamA = parseJsonArray(m.team_a) || []
+    const dbTeamB = parseJsonArray(m.team_b) || []
+
+    // Override with hardcoded teams for display, but fallback to DB if lengths > 0
+    const hcTeamA = ["Mati C.", "Mati V", "Maxi (Amigo Mati)", "Nico", "Chino", "Luca (Amigo Chino)", "Lautaro (Amigo Chino)", "Enzo (Amigo Chino)"]
+    const hcTeamB = ["Roberto", "Ayax", "Panchi", "Tizi", "Ivo", "Dami", "Ilo (Amigo Ivo)", "Tomi (Amigo Ivo)"]
+
+    // Use DB if it has elements, otherwise fallback to hardcoded
+    const finalTeamA = dbTeamA.length > 0 ? dbTeamA : hcTeamA
+    const finalTeamB = dbTeamB.length > 0 ? dbTeamB : hcTeamB
 
     return {
       id: m.id,
       date: m.date,
       time: m.time,
       venueId: m.venue_id,
-      teamA: m.status === 'jugado' ? teamA : [],
-      teamB: m.status === 'jugado' ? teamB : [],
+      teamA: m.status === 'jugado' ? finalTeamA : [],
+      teamB: m.status === 'jugado' ? finalTeamB : [],
       scoreA: m.score_a,
       scoreB: m.score_b,
       scorers: parseJsonArray(m.scorers),
